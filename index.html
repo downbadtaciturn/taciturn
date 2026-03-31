@@ -2,13 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- FIXED VIEWPORT -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 <title>Curiosity Wins 😏</title>
 
 <style>
 body {
   margin: 0;
-  height: 100vh;
+  min-height: 100vh;
+  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,6 +25,8 @@ body {
   text-align: center;
   animation: fadeIn 1.5s ease;
   padding: 10px;
+  max-width: 90vw;
+  margin: auto;
 }
 
 h1, h2, p {
@@ -28,7 +34,7 @@ h1, h2, p {
   margin: 5px 0;
 }
 
-/* Font sizes for PC */
+/* PC */
 h1 { font-size: 2.2rem; }
 p  { font-size: 1.2rem; }
 h2 { font-size: 1.5rem; }
@@ -65,15 +71,16 @@ button {
 #no:hover { background: #ccc; }
 #no:active { transform: scale(0.9); }
 
-/* MOBILE */
+/* MOBILE FIXED */
 @media (max-width: 600px) {
-  h1 { font-size: 1.6rem; }
-  p  { font-size: 1rem; }
-  h2 { font-size: 1.3rem; }
+  h1 { font-size: 1.8rem; }
+  p  { font-size: 1.1rem; }
+  h2 { font-size: 1.4rem; }
+
   button {
     font-size: 16px;
     padding: 10px 18px;
-    max-width: 80%; /* limit width so button won't wrap */
+    max-width: 80%;
   }
 }
 
@@ -135,17 +142,14 @@ function moveNo() {
     btn.innerText = texts[step];
   }
 
-  // Step 7 – first click moves the button immediately
   if (step === texts.length - 1) {
     moveButtonRandomly(btn);
 
     if (!('ontouchstart' in window)) {
-      // PC: hover moves button
       btn.addEventListener('mouseover', () => moveButtonRandomly(btn));
     } else {
-      // MOBILE: touchend for safe tapping
       btn.addEventListener('touchend', (e) => {
-        e.preventDefault(); // prevent accidental Yes click
+        e.preventDefault();
         moveButtonRandomly(btn);
       });
     }
@@ -154,14 +158,12 @@ function moveNo() {
   step++;
 }
 
-// Function to move randomly with mobile Y limit
 function moveButtonRandomly(btn) {
   const x = Math.random() * (window.innerWidth - btn.offsetWidth - 20);
   const yMax = window.innerHeight - btn.offsetHeight - 20;
   let y;
 
   if (window.innerWidth <= 600) {
-    // MOBILE: limit Y to 70% of screen height
     y = Math.random() * (yMax * 0.7);
   } else {
     y = Math.random() * yMax;
@@ -187,7 +189,7 @@ function sayYes() {
 function createHeart() {
   const heart = document.createElement('div');
   heart.classList.add('heart');
-  heart.innerHTML = '';
+  heart.innerHTML = '💖';
   heart.style.left = Math.random() * 100 + 'vw';
   heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
   document.body.appendChild(heart);
