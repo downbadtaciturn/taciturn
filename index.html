@@ -2,12 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
-<!-- CLEAN VIEWPORT -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <title>Curiosity Wins 😏</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
@@ -48,18 +44,26 @@ button {
   border: none;
 }
 
-/* YES */
+/* YES BUTTON */
 #yes {
   background: linear-gradient(135deg, #ff4d6d, #ff7eb3);
   color: white;
   box-shadow: 0 0 20px rgba(255,0,100,0.6);
 }
 
-/* NO (visible now) */
+/* NO BUTTON */
 #no {
   background: rgba(255,255,255,0.08);
   color: #ff7eb3;
   border: 1px solid rgba(255,126,179,0.4);
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  h1 { font-size: 1.8rem; }
+  h2 { font-size: 1.4rem; }
+  p { font-size: 1rem; }
+  button { width: 80%; }
 }
 
 /* ANIMATIONS */
@@ -87,7 +91,6 @@ button {
 <script>
 let step = 0;
 let locked = false;
-
 const texts = [
   "Wait… sure ka? 😅",
   "Not even a little curious? 😄",
@@ -112,12 +115,9 @@ function moveNo() {
     moveButton();
 
     if (!('ontouchstart' in window)) {
-      btn.onmouseover = moveButton;
+      btn.onmouseover = moveButton; // PC hover
     } else {
-      btn.ontouchstart = (e) => {
-        e.preventDefault();
-        moveButton();
-      };
+      btn.ontouchstart = (e) => { e.preventDefault(); moveButton(); }; // Mobile tap
     }
   }
 
@@ -126,18 +126,17 @@ function moveNo() {
 
 function moveButton() {
   const padding = 16;
-
   const btnWidth = btn.offsetWidth;
   const btnHeight = btn.offsetHeight;
 
-  // 🔥 TRUE viewport (zoom-safe)
-  const screenWidth = document.documentElement.clientWidth;
-  const screenHeight = document.documentElement.clientHeight;
+  // 🔥 zoom-safe viewport
+  const screenWidth = window.visualViewport ? window.visualViewport.width : document.documentElement.clientWidth;
+  const screenHeight = window.visualViewport ? window.visualViewport.height : document.documentElement.clientHeight;
 
   let x = Math.random() * (screenWidth - btnWidth - padding);
   let y = Math.random() * (screenHeight - btnHeight - padding);
 
-  // HARD CLAMP
+  // clamp to visible area
   x = Math.max(padding, Math.min(x, screenWidth - btnWidth - padding));
   y = Math.max(padding, Math.min(y, screenHeight - btnHeight - padding));
 
