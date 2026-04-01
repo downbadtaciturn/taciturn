@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Curiosity Wins 😏</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
 <style>
 body {
   margin: 0;
@@ -13,73 +11,90 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(-45deg, #0f0f0f, #1a1a1a, #2a0f14, #3a0f1c);
-  background-size: 400% 400%;
-  animation: gradientBG 15s ease infinite;
-  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #1e1e1e, #2c2c2c);
+  font-family: 'Segoe UI', sans-serif;
+  color: #fff;
   overflow: hidden;
 }
 
 .container {
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(12px);
-  border-radius: 25px;
-  padding: 30px 20px;
-  max-width: 400px;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  padding: 20px;
+  width: 450px;
+  max-width: 90vw;
+  min-height: 350px;
+  border-radius: 20px;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
 }
 
-h1, h2, p {
-  color: #fff;
-  margin: 6px 0;
+h1, h2, p { margin: 6px 0; }
+
+/* Buttons in horizontal row */
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* space between buttons */
+  margin-top: 20px;
 }
 
-button {
-  padding: 12px 25px;
-  margin: 10px;
-  font-size: 17px;
+/* Sure button fixed */
+#yes {
+  width: 130px;
+  height: 45px;
+  background: #ff4d6d;
+  color: white;
+  font-weight: bold;
   border-radius: 25px;
   cursor: pointer;
   border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s ease, background 0.25s ease;
 }
 
-/* YES BUTTON */
-#yes {
-  background: linear-gradient(135deg, #ff4d6d, #ff7eb3);
-  color: white;
-  box-shadow: 0 0 20px rgba(255,0,100,0.6);
+#yes:hover {
+  transform: scale(1.1);
 }
 
-/* NO BUTTON */
+/* Not sure button dynamic */
 #no {
-  background: rgba(255,255,255,0.08);
+  min-width: 100px;
+  max-width: 250px;
+  height: 45px;
+  background: #555;
   color: #ff7eb3;
-  border: 1px solid rgba(255,126,179,0.4);
+  border-radius: 25px;
+  cursor: pointer;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  white-space: nowrap;
+  transition: all 0.35s ease;
 }
 
-/* MOBILE */
+#no:hover {
+  transform: scale(1.05);
+  background: #666;
+}
+
+/* Mobile adjustments */
 @media (max-width: 600px) {
+  #yes { width: 120px; height: 40px; font-size: 14px; }
+  #no { max-width: 200px; height: 40px; font-size: 14px; padding: 0 10px; }
   h1 { font-size: 1.8rem; }
   h2 { font-size: 1.4rem; }
   p { font-size: 1rem; }
-  button { width: 80%; }
-}
-
-/* ANIMATIONS */
-@keyframes gradientBG {
-  0% {background-position:0% 50%;}
-  50% {background-position:100% 50%;}
-  100% {background-position:0% 50%;}
-}
-
-@keyframes fadeIn {
-  from {opacity:0; transform:translateY(20px);}
-  to {opacity:1; transform:translateY(0);}
 }
 </style>
 </head>
-
 <body>
 
 <div class="container" id="main">
@@ -89,8 +104,10 @@ button {
   <p>I’d love to get to know you more 😄</p>
   <h2>Can I get to know you?</h2>
 
-  <button id="yes" onclick="sayYes()">Sure 😊</button>
-  <button id="no" onclick="moveNo()">Not sure 😅</button>
+  <div class="buttons">
+    <button id="yes" onclick="sayYes()">Sure 😊</button>
+    <button id="no" onclick="moveNo()">Not sure 😅</button>
+  </div>
 </div>
 
 <script>
@@ -113,6 +130,7 @@ function moveNo() {
 
   if (step < texts.length) {
     btn.innerText = texts[step];
+    btn.style.width = 'auto'; // adjust width dynamically
   }
 
   if (step === texts.length - 1) {
@@ -122,15 +140,15 @@ function moveNo() {
     if (!('ontouchstart' in window)) {
       btn.onmouseover = moveButton; // PC hover
     } else {
-      btn.ontouchstart = (e) => { e.preventDefault(); moveButton(); }; // Mobile tap
+      btn.ontouchstart = (e) => { e.preventDefault(); moveButton(); }; // mobile tap
     }
   }
-
   step++;
 }
 
+// Zoom-safe movement
 function moveButton() {
-  const padding = 16;
+  const padding = 10;
   const btnWidth = btn.offsetWidth;
   const btnHeight = btn.offsetHeight;
 
@@ -148,12 +166,13 @@ function moveButton() {
   btn.style.top = y + 'px';
 }
 
+// Show GIF on yes
 function sayYes() {
   const gifURL = "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTlya3hwanU0ZHY5ZHlqeDh3YnljNGt1a2VtendoOXZyZno0OXQ1NCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/akiHW8qDydkm4/giphy.gif";
   
   document.getElementById('main').innerHTML = `
-    <div style="animation: fadeIn 1s ease;">
-      <img src="${gifURL}" style="max-width:90%; border-radius:20px;">
+    <div>
+      <img src="${gifURL}" style="max-width:90%; border-radius:15px;">
     </div>
   `;
 }
