@@ -72,6 +72,11 @@ button {
   50% {background-position:100% 50%;}
   100% {background-position:0% 50%;}
 }
+
+@keyframes fadeIn {
+  from {opacity:0; transform:translateY(20px);}
+  to {opacity:1; transform:translateY(0);}
+}
 </style>
 </head>
 
@@ -129,16 +134,14 @@ function moveButton() {
   const btnWidth = btn.offsetWidth;
   const btnHeight = btn.offsetHeight;
 
-  // 🔥 zoom-safe viewport
-  const screenWidth = window.visualViewport ? window.visualViewport.width : document.documentElement.clientWidth;
-  const screenHeight = window.visualViewport ? window.visualViewport.height : document.documentElement.clientHeight;
+  const screenWidth = window.innerWidth;
+  const screenHeight = window.innerHeight;
 
-  let x = Math.random() * (screenWidth - btnWidth - padding);
-  let y = Math.random() * (screenHeight - btnHeight - padding);
+  const maxX = screenWidth - btnWidth - padding;
+  const maxY = screenHeight - btnHeight - padding;
 
-  // clamp to visible area
-  x = Math.max(padding, Math.min(x, screenWidth - btnWidth - padding));
-  y = Math.max(padding, Math.min(y, screenHeight - btnHeight - padding));
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
 
   btn.style.position = 'fixed';
   btn.style.left = x + 'px';
@@ -146,7 +149,13 @@ function moveButton() {
 }
 
 function sayYes() {
-  document.getElementById('main').innerHTML = "<h1 style='color:white'>Yay 😄💖</h1>";
+  const gifURL = "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTlya3hwanU0ZHY5ZHlqeDh3YnljNGt1a2VtendoOXZyZno0OXQ1NCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/akiHW8qDydkm4/giphy.gif";
+  
+  document.getElementById('main').innerHTML = `
+    <div style="animation: fadeIn 1s ease;">
+      <img src="${gifURL}" style="max-width:90%; border-radius:20px;">
+    </div>
+  `;
 }
 </script>
 
