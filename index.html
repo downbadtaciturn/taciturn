@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
-<!-- FIXED VIEWPORT -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
 <title>Curiosity Wins 😏</title>
 
+<!-- GOOGLE FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
 <style>
+/* RESET & BODY */
 body {
   margin: 0;
   min-height: 100vh;
@@ -16,30 +17,40 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #ffdde1, #ee9ca7);
-  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(-45deg, #ffdde1, #ee9ca7, #ffb347, #ff7e5f);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  font-family: 'Poppins', sans-serif;
   overflow: hidden;
 }
 
+/* CONTAINER */
 .container {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 25px;
+  padding: 30px 20px;
+  max-width: 400px;
+  margin: auto;
   text-align: center;
   animation: fadeIn 1.5s ease;
-  padding: 10px;
-  max-width: 90vw;
-  margin: auto;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
+/* TEXT STYLING */
 h1, h2, p {
-  line-height: 1.4;
   margin: 5px 0;
+  line-height: 1.4;
+  color: #fff;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.1);
 }
 
-/* PC */
-h1 { font-size: 2.2rem; }
-p  { font-size: 1.2rem; }
-h2 { font-size: 1.5rem; }
+h1 { font-size: 2.5rem; font-weight: 600; }
+h2 { font-size: 1.8rem; font-weight: 600; }
+p  { font-size: 1.3rem; font-weight: 400; }
 
-.buttons { margin-top: 20px; }
+/* BUTTONS */
+.buttons { margin-top: 25px; }
 
 button {
   padding: 12px 25px;
@@ -51,40 +62,41 @@ button {
   transition: all 0.25s ease;
   white-space: nowrap;
   box-sizing: border-box;
+  user-select: none;
 }
 
-/* YES */
+/* YES BUTTON */
 #yes {
-  background: #ff4d6d;
+  background: linear-gradient(135deg, #ff758c, #ff7eb3);
   color: white;
+  font-weight: bold;
+  box-shadow: 0 6px 15px rgba(255,0,100,0.3);
   animation: pulse 2s infinite;
 }
 
 #yes:hover { transform: scale(1.1); }
 #yes:active { transform: scale(0.95); }
 
-/* NO */
+/* NO BUTTON */
 #no {
-  background: #ddd;
+  background: #fff5f5;
+  color: #ff4d6d;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, background 0.2s ease;
 }
 
-#no:hover { background: #ccc; }
+#no:hover { background: #ffe1e8; }
 #no:active { transform: scale(0.9); }
 
-/* MOBILE FIXED */
+/* MOBILE STYLING */
 @media (max-width: 600px) {
-  h1 { font-size: 1.8rem; }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
   p  { font-size: 1.1rem; }
-  h2 { font-size: 1.4rem; }
-
-  button {
-    font-size: 16px;
-    padding: 10px 18px;
-    max-width: 80%;
-  }
+  button { width: 80%; font-size: 16px; padding: 10px 18px; }
 }
 
-/* Animations */
+/* ANIMATIONS */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -96,9 +108,15 @@ button {
   100% { transform: scale(1); }
 }
 
+@keyframes gradientBG {
+  0% { background-position:0% 50%; }
+  50% { background-position:100% 50%; }
+  100% { background-position:0% 50%; }
+}
+
 .heart {
   position: absolute;
-  animation: float 4s linear infinite;
+  animation: float linear infinite;
 }
 
 @keyframes float {
@@ -109,7 +127,6 @@ button {
 </head>
 
 <body>
-
 <div class="container" id="main">
   <h1>Hey Wedad 😊</h1>
   <p>I wanted to make you smile today 😊</p>
@@ -142,16 +159,15 @@ function moveNo() {
     btn.innerText = texts[step];
   }
 
+  // Last step: move immediately + attach hover/touch
   if (step === texts.length - 1) {
-    moveButtonRandomly(btn);
+    moveButtonRandomly(btn); // MOVE immediately
 
+    // PC hover
     if (!('ontouchstart' in window)) {
-      btn.addEventListener('mouseover', () => moveButtonRandomly(btn));
-    } else {
-      btn.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        moveButtonRandomly(btn);
-      });
+      btn.onmouseover = () => moveButtonRandomly(btn);
+    } else { // Touch devices
+      btn.ontouchend = (e) => { e.preventDefault(); moveButtonRandomly(btn); };
     }
   }
 
@@ -159,15 +175,10 @@ function moveNo() {
 }
 
 function moveButtonRandomly(btn) {
-  const x = Math.random() * (window.innerWidth - btn.offsetWidth - 20);
-  const yMax = window.innerHeight - btn.offsetHeight - 20;
-  let y;
-
-  if (window.innerWidth <= 600) {
-    y = Math.random() * (yMax * 0.7);
-  } else {
-    y = Math.random() * yMax;
-  }
+  const padding = 20;
+  const x = Math.random() * (window.innerWidth - btn.offsetWidth - padding*2) + padding;
+  const yMax = window.innerHeight - btn.offsetHeight - padding*2;
+  const y = window.innerWidth <= 600 ? Math.random() * (yMax * 0.7) + padding : Math.random() * yMax + padding;
 
   btn.style.position = 'absolute';
   btn.style.left = x + 'px';
@@ -189,14 +200,16 @@ function sayYes() {
 function createHeart() {
   const heart = document.createElement('div');
   heart.classList.add('heart');
+  const colors = ['#ff4d6d', '#ff758c', '#ffe1e8', '#ff7eb3'];
   heart.innerHTML = '';
   heart.style.left = Math.random() * 100 + 'vw';
-  heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+  heart.style.fontSize = (Math.random() * 25 + 25) + 'px';
+  heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+  heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
   document.body.appendChild(heart);
 
   setTimeout(() => heart.remove(), 4000);
 }
 </script>
-
 </body>
 </html>
