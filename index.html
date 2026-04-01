@@ -5,11 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Curiosity Wins 😏</title>
 
-<!-- GOOGLE FONT -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
-/* RESET & BODY */
 body {
   margin: 0;
   min-height: 100vh;
@@ -17,7 +15,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(-45deg, #ffdde1, #ee9ca7, #ffb347, #ff7e5f);
+  background: linear-gradient(-45deg, #0f0f0f, #1a1a1a, #2a0f14, #3a0f1c);
   background-size: 400% 400%;
   animation: gradientBG 15s ease infinite;
   font-family: 'Poppins', sans-serif;
@@ -26,32 +24,28 @@ body {
 
 /* CONTAINER */
 .container {
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
   border-radius: 25px;
   padding: 30px 20px;
   max-width: 400px;
-  margin: auto;
   text-align: center;
   animation: fadeIn 1.5s ease;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
 }
 
-/* TEXT STYLING */
+/* TEXT */
 h1, h2, p {
   margin: 5px 0;
-  line-height: 1.4;
   color: #fff;
-  text-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
 }
 
-h1 { font-size: 2.5rem; font-weight: 600; }
-h2 { font-size: 1.8rem; font-weight: 600; }
-p  { font-size: 1.3rem; font-weight: 400; }
+h1 { font-size: 2.3rem; }
+h2 { font-size: 1.6rem; }
+p  { font-size: 1.2rem; }
 
 /* BUTTONS */
-.buttons { margin-top: 25px; }
-
 button {
   padding: 12px 25px;
   margin: 10px;
@@ -60,40 +54,36 @@ button {
   border-radius: 25px;
   cursor: pointer;
   transition: all 0.25s ease;
-  white-space: nowrap;
-  box-sizing: border-box;
   user-select: none;
 }
 
-/* YES BUTTON */
+/* YES */
 #yes {
-  background: linear-gradient(135deg, #ff758c, #ff7eb3);
+  background: linear-gradient(135deg, #ff4d6d, #ff7eb3);
   color: white;
   font-weight: bold;
-  box-shadow: 0 6px 15px rgba(255,0,100,0.3);
+  box-shadow: 0 0 20px rgba(255,0,100,0.6);
   animation: pulse 2s infinite;
 }
 
 #yes:hover { transform: scale(1.1); }
 #yes:active { transform: scale(0.95); }
 
-/* NO BUTTON */
+/* NO */
 #no {
-  background: #fff5f5;
-  color: #ff4d6d;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  transition: transform 0.2s ease, background 0.2s ease;
+  background: #222;
+  color: #ff758c;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
 }
 
-#no:hover { background: #ffe1e8; }
-#no:active { transform: scale(0.9); }
+#no:hover { background: #333; }
 
-/* MOBILE STYLING */
+/* MOBILE */
 @media (max-width: 600px) {
-  h1 { font-size: 2rem; }
-  h2 { font-size: 1.5rem; }
-  p  { font-size: 1.1rem; }
-  button { width: 80%; font-size: 16px; padding: 10px 18px; }
+  h1 { font-size: 1.9rem; }
+  h2 { font-size: 1.4rem; }
+  p  { font-size: 1.05rem; }
+  button { width: 80%; }
 }
 
 /* ANIMATIONS */
@@ -103,9 +93,8 @@ button {
 }
 
 @keyframes pulse {
-  0% { transform: scale(1); }
+  0%,100% { transform: scale(1); }
   50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
 }
 
 @keyframes gradientBG {
@@ -127,6 +116,7 @@ button {
 </head>
 
 <body>
+
 <div class="container" id="main">
   <h1>Hey Wedad 😊</h1>
   <p>I wanted to make you smile today 😊</p>
@@ -134,7 +124,7 @@ button {
   <p>I’d love to get to know you more 😄</p>
   <h2>Can I get to know you?</h2>
 
-  <div class="buttons">
+  <div>
     <button id="yes" onclick="sayYes()">Sure 😊</button>
     <button id="no" onclick="moveNo()">Not sure 😅</button>
   </div>
@@ -142,6 +132,8 @@ button {
 
 <script>
 let step = 0;
+let locked = false;
+
 const texts = [
   "Wait… sure ka? 😅",
   "Not even a little curious? 😄",
@@ -155,32 +147,45 @@ const texts = [
 const btn = document.getElementById('no');
 
 function moveNo() {
+  if (locked) return;
+
   if (step < texts.length) {
     btn.innerText = texts[step];
   }
 
-  // Last step: move immediately + attach hover/touch
   if (step === texts.length - 1) {
-    moveButtonRandomly(btn); // MOVE immediately
+    locked = true;
+
+    moveButton(); // move agad
 
     // PC hover
     if (!('ontouchstart' in window)) {
-      btn.onmouseover = () => moveButtonRandomly(btn);
-    } else { // Touch devices
-      btn.ontouchend = (e) => { e.preventDefault(); moveButtonRandomly(btn); };
+      btn.onmouseover = moveButton;
+    } else {
+      btn.ontouchstart = (e) => {
+        e.preventDefault();
+        moveButton();
+      };
     }
   }
 
   step++;
 }
 
-function moveButtonRandomly(btn) {
-  const padding = 20;
-  const x = Math.random() * (window.innerWidth - btn.offsetWidth - padding*2) + padding;
-  const yMax = window.innerHeight - btn.offsetHeight - padding*2;
-  const y = window.innerWidth <= 600 ? Math.random() * (yMax * 0.7) + padding : Math.random() * yMax + padding;
+function moveButton() {
+  const padding = 30;
 
-  btn.style.position = 'absolute';
+  const maxX = window.innerWidth - btn.offsetWidth - padding;
+  const maxY = window.innerHeight - btn.offsetHeight - padding;
+
+  let x = Math.random() * maxX + padding;
+  let y = Math.random() * maxY + padding;
+
+  // extra safety para hindi mawala
+  x = Math.max(padding, Math.min(x, maxX));
+  y = Math.max(padding, Math.min(y, maxY));
+
+  btn.style.position = 'fixed'; // IMPORTANT FIX
   btn.style.left = x + 'px';
   btn.style.top = y + 'px';
 }
@@ -194,22 +199,25 @@ function sayYes() {
     </div>
   `;
 
-  for (let i = 0; i < 25; i++) createHeart();
+  for (let i = 0; i < 30; i++) createHeart();
 }
 
 function createHeart() {
   const heart = document.createElement('div');
   heart.classList.add('heart');
-  const colors = ['#ff4d6d', '#ff758c', '#ffe1e8', '#ff7eb3'];
+
+  const colors = ['#ff4d6d','#ff758c','#ff7eb3','#ffffff'];
   heart.innerHTML = '';
+
   heart.style.left = Math.random() * 100 + 'vw';
-  heart.style.fontSize = (Math.random() * 25 + 25) + 'px';
+  heart.style.fontSize = (Math.random() * 25 + 20) + 'px';
   heart.style.color = colors[Math.floor(Math.random() * colors.length)];
   heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
-  document.body.appendChild(heart);
 
+  document.body.appendChild(heart);
   setTimeout(() => heart.remove(), 4000);
 }
 </script>
+
 </body>
 </html>
