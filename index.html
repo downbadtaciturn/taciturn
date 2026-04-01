@@ -2,9 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
 <title>Curiosity Wins 😏</title>
 
 <style>
@@ -33,10 +31,9 @@ body {
 h1, h2, p {
   line-height: 1.4;
   margin: 5px 0;
-  color: #000; /* black font for readability */
+  color: #000; /* black font */
 }
 
-/* BUTTONS */
 .buttons { margin-top: 20px; }
 
 button {
@@ -55,7 +52,7 @@ button {
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-/* YES BUTTON - vibrant / playful */
+/* YES BUTTON */
 #yes {
   background: linear-gradient(135deg, #ff4d6d, #ff758f);
   color: #fff;
@@ -64,16 +61,15 @@ button {
 #yes:hover { transform: scale(1.1); }
 #yes:active { transform: scale(0.95); }
 
-/* NO BUTTON - soft / neutral but visible */
+/* NO BUTTON */
 #no {
   background: #fff;
   color: #000;
-  border: 1px solid #ccc; /* subtle border for elegance */
+  border: 1px solid #ccc;
 }
 #no:hover { background: #f0f0f0; transform: scale(1.05); }
 #no:active { transform: scale(0.9); }
 
-/* MOBILE */
 @media (max-width: 600px) {
   h1 { font-size: 1.8rem; }
   p  { font-size: 1.1rem; }
@@ -86,7 +82,6 @@ button {
   }
 }
 
-/* Animations */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -153,13 +148,18 @@ function moveNo() {
 }
 
 function moveButtonRandomly(btn) {
-  const x = Math.random() * (window.innerWidth - btn.offsetWidth - 20);
-  const yMax = window.innerHeight - btn.offsetHeight - 20;
-  let y = window.innerWidth <= 600 ? Math.random() * (yMax * 0.7) : Math.random() * yMax;
+  // FIX: always inside viewport
+  const maxX = window.innerWidth - btn.offsetWidth - 10;
+  const maxY = window.innerHeight - btn.offsetHeight - 10;
+
+  let x = Math.random() * maxX;
+  let y = Math.random() * maxY;
+
+  if (window.innerWidth <= 600) y = Math.random() * (maxY * 0.7);
 
   btn.style.position = 'absolute';
-  btn.style.left = x + 'px';
-  btn.style.top = y + 'px';
+  btn.style.left = `${x}px`;
+  btn.style.top = `${y}px`;
 }
 
 function sayYes() {
