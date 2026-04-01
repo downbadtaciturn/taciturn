@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- SAFE VIEWPORT -->
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- CLEAN VIEWPORT -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Curiosity Wins 😏</title>
 
@@ -14,7 +14,6 @@
 body {
   margin: 0;
   height: 100vh;
-  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,7 +24,6 @@ body {
   overflow: hidden;
 }
 
-/* CONTAINER */
 .container {
   background: rgba(255,255,255,0.05);
   backdrop-filter: blur(12px);
@@ -33,90 +31,42 @@ body {
   padding: 30px 20px;
   max-width: 400px;
   text-align: center;
-  animation: fadeIn 1.5s ease;
   box-shadow: 0 10px 30px rgba(0,0,0,0.6);
 }
 
-/* TEXT */
 h1, h2, p {
-  margin: 5px 0;
   color: #fff;
+  margin: 6px 0;
 }
 
-h1 { font-size: 2.2rem; }
-h2 { font-size: 1.6rem; }
-p  { font-size: 1.15rem; }
-
-/* BUTTONS */
 button {
   padding: 12px 25px;
   margin: 10px;
   font-size: 17px;
   border-radius: 25px;
   cursor: pointer;
-  transition: all 0.25s ease;
-  user-select: none;
   border: none;
 }
 
-/* YES BUTTON */
+/* YES */
 #yes {
   background: linear-gradient(135deg, #ff4d6d, #ff7eb3);
   color: white;
-  font-weight: bold;
   box-shadow: 0 0 20px rgba(255,0,100,0.6);
-  animation: pulse 2s infinite;
 }
 
-#yes:hover { transform: scale(1.1); }
-
-/* NO BUTTON (FIXED VISIBILITY 🔥) */
+/* NO (visible now) */
 #no {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255,255,255,0.08);
   color: #ff7eb3;
-  border: 1px solid rgba(255, 126, 179, 0.4);
-  box-shadow: 0 0 10px rgba(255, 126, 179, 0.2);
-  backdrop-filter: blur(5px);
-}
-
-#no:hover {
-  background: rgba(255, 126, 179, 0.15);
-  box-shadow: 0 0 15px rgba(255, 126, 179, 0.5);
-}
-
-/* MOBILE */
-@media (max-width: 600px) {
-  h1 { font-size: 1.8rem; }
-  h2 { font-size: 1.4rem; }
-  p  { font-size: 1rem; }
-  button { width: 80%; }
+  border: 1px solid rgba(255,126,179,0.4);
 }
 
 /* ANIMATIONS */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; }
-}
-
-@keyframes pulse {
-  0%,100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-}
-
 @keyframes gradientBG {
-  0% { background-position:0% 50%; }
-  50% { background-position:100% 50%; }
-  100% { background-position:0% 50%; }
-}
-
-.heart {
-  position: fixed;
-  animation: float linear infinite;
-}
-
-@keyframes float {
-  from { transform: translateY(100vh); opacity: 1; }
-  to { transform: translateY(-10vh); opacity: 0; }
+  0% {background-position:0% 50%;}
+  50% {background-position:100% 50%;}
+  100% {background-position:0% 50%;}
 }
 </style>
 </head>
@@ -161,11 +111,9 @@ function moveNo() {
     locked = true;
     moveButton();
 
-    // PC hover
     if (!('ontouchstart' in window)) {
       btn.onmouseover = moveButton;
     } else {
-      // Mobile tap
       btn.ontouchstart = (e) => {
         e.preventDefault();
         moveButton();
@@ -177,18 +125,19 @@ function moveNo() {
 }
 
 function moveButton() {
-  const padding = 20;
+  const padding = 16;
 
   const btnWidth = btn.offsetWidth;
   const btnHeight = btn.offsetHeight;
 
-  const screenWidth = window.innerWidth;
-  const screenHeight = window.innerHeight;
+  // 🔥 TRUE viewport (zoom-safe)
+  const screenWidth = document.documentElement.clientWidth;
+  const screenHeight = document.documentElement.clientHeight;
 
   let x = Math.random() * (screenWidth - btnWidth - padding);
   let y = Math.random() * (screenHeight - btnHeight - padding);
 
-  // HARD LIMIT (never goes outside)
+  // HARD CLAMP
   x = Math.max(padding, Math.min(x, screenWidth - btnWidth - padding));
   y = Math.max(padding, Math.min(y, screenHeight - btnHeight - padding));
 
@@ -198,30 +147,7 @@ function moveButton() {
 }
 
 function sayYes() {
-  const gifURL = "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTlya3hwanU0ZHY5ZHlqeDh3YnljNGt1a2VtendoOXZyZno0OXQ1NCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/akiHW8qDydkm4/giphy.gif";
-
-  document.getElementById('main').innerHTML = `
-    <div style="animation: fadeIn 1s ease;">
-      <img src="${gifURL}" style="max-width:90%; border-radius:20px;">
-    </div>
-  `;
-
-  for (let i = 0; i < 30; i++) createHeart();
-}
-
-function createHeart() {
-  const heart = document.createElement('div');
-  heart.classList.add('heart');
-
-  const colors = ['#ff4d6d','#ff758c','#ff7eb3','#ffffff'];
-  heart.innerHTML = '';
-
-  heart.style.left = Math.random() * 100 + 'vw';
-  heart.style.fontSize = (Math.random() * 25 + 20) + 'px';
-  heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
-
-  document.body.appendChild(heart);
-  setTimeout(() => heart.remove(), 4000);
+  document.getElementById('main').innerHTML = "<h1 style='color:white'>Yay 😄💖</h1>";
 }
 </script>
 
