@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Curiosity Wins 😏</title>
+
 <style>
 body {
   margin: 0;
@@ -11,7 +12,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #1e1e1e, #2c2c2c);
+  background: linear-gradient(135deg, #141414, #1f1f1f);
   font-family: 'Segoe UI', sans-serif;
   color: #fff;
   overflow: hidden;
@@ -24,16 +25,17 @@ body {
   max-width: 90vw;
   min-height: 350px;
   border-radius: 20px;
-  background: rgba(0,0,0,0.4);
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  box-sizing: border-box;
 }
 
+/* TEXT */
 h1, h2, p { margin: 6px 0; }
 
-/* Buttons in horizontal row */
+/* BUTTON ROW */
 .buttons {
   display: flex;
   justify-content: center;
@@ -42,50 +44,57 @@ h1, h2, p { margin: 6px 0; }
   margin-top: 20px;
 }
 
-/* Sure button fixed */
+/* SHARED BUTTON STYLE */
+#yes, #no {
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  font-family: 'Segoe UI', sans-serif;
+
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.15);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+
+  border-radius: 25px;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: all 0.25s ease;
+}
+
+/* SURE BUTTON */
 #yes {
   width: 130px;
   height: 45px;
-  background: #ff4d6d;
-  color: white;
-  font-weight: bold;
-  border-radius: 25px;
-  cursor: pointer;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.25s ease, background 0.25s ease;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  background: linear-gradient(135deg, #ff4d6d, #ff758f);
 }
 
-#yes:hover { transform: scale(1.1); }
+#yes:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(255,77,109,0.5);
+}
 
-/* Not sure button fixed but text adjusts */
+/* NOT SURE BUTTON */
 #no {
   width: 200px;
   height: 45px;
-  background: #555;
-  color: #ff7eb3;
-  border-radius: 25px;
-  cursor: pointer;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: rgba(255,255,255,0.08);
+
   padding: 0 10px;
   text-align: center;
   white-space: normal;
   word-break: break-word;
-  transition: transform 0.25s ease, background 0.25s ease;
 }
 
-#no:hover { transform: scale(1.05); background: #666; }
+#no:hover {
+  transform: scale(1.05);
+  background: rgba(255,255,255,0.15);
+}
 
-/* Click animation for Not sure */
+/* CLICK ANIMATION */
 @keyframes clickPulse {
   0% { transform: scale(1); }
   30% { transform: scale(1.1); }
@@ -93,18 +102,11 @@ h1, h2, p { margin: 6px 0; }
   100% { transform: scale(1); }
 }
 
-.click-animate { animation: clickPulse 0.35s ease; }
-
-/* Mobile adjustments */
-@media (max-width: 600px) {
-  #yes { width: 120px; height: 40px; font-size: 14px; }
-  #no { width: 160px; height: 40px; font-size: 14px; }
-  h1 { font-size: 1.8rem; }
-  h2 { font-size: 1.4rem; }
-  p { font-size: 1rem; }
+.click-animate {
+  animation: clickPulse 0.35s ease;
 }
 
-/* Meme text style */
+/* MEME STYLE */
 .meme-container {
   position: relative;
   display: inline-block;
@@ -115,21 +117,28 @@ h1, h2, p { margin: 6px 0; }
   position: absolute;
   top: 10px;
   left: 10px;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: bold;
   color: white;
-  text-shadow: 2px 2px 4px #000;
+  text-shadow: 2px 2px 5px #000;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  #yes { width: 120px; height: 40px; font-size: 14px; }
+  #no { width: 160px; height: 40px; font-size: 14px; }
 }
 </style>
 </head>
+
 <body>
 
 <div class="container" id="main">
   <h1>Hey Wedad 😊</h1>
-  <p>I just wanted to make you smile today </p>
-  <p>You seem really fun and amazing </p>
-  <p>And I'd love the chance to get to know you better </p>
-  <h2>So... can I?</h2>
+  <p>I just wanted to make you smile today 😄</p>
+  <p>You seem really fun and amazing 💖</p>
+  <p>I’d love the chance to get to know you better 😌</p>
+  <h2>So… can I? 😏</h2>
 
   <div class="buttons">
     <button id="yes" onclick="sayYes()">Sure 😊</button>
@@ -140,6 +149,7 @@ h1, h2, p { margin: 6px 0; }
 <script>
 let step = 0;
 let locked = false;
+
 const texts = [
   "Wait… sure ka? 😅",
   "Not even a little curious? 😄",
@@ -154,9 +164,12 @@ const btn = document.getElementById('no');
 
 function moveNo() {
   if (locked) return;
+
   if (step < texts.length) {
     btn.innerText = texts[step];
-    btn.classList.remove('click-animate'); // reset animation
+
+    // click animation
+    btn.classList.remove('click-animate');
     void btn.offsetWidth;
     btn.classList.add('click-animate');
   }
@@ -168,22 +181,28 @@ function moveNo() {
     if (!('ontouchstart' in window)) {
       btn.onmouseover = moveButton;
     } else {
-      btn.ontouchstart = (e) => { e.preventDefault(); moveButton(); };
+      btn.ontouchstart = (e) => {
+        e.preventDefault();
+        moveButton();
+      };
     }
   }
+
   step++;
 }
 
 function moveButton() {
   const padding = 10;
+
   const btnWidth = btn.offsetWidth;
   const btnHeight = btn.offsetHeight;
-  const screenWidth = window.innerWidth;
-  const screenHeight = window.innerHeight;
-  const maxX = screenWidth - btnWidth - padding;
-  const maxY = screenHeight - btnHeight - padding;
+
+  const maxX = window.innerWidth - btnWidth - padding;
+  const maxY = window.innerHeight - btnHeight - padding;
+
   const x = Math.random() * maxX;
   const y = Math.random() * maxY;
+
   btn.style.position = 'fixed';
   btn.style.left = x + 'px';
   btn.style.top = y + 'px';
@@ -191,7 +210,7 @@ function moveButton() {
 
 function sayYes() {
   const gifURL = "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTlya3hwanU0ZHY5ZHlqeDh3YnljNGt1a2VtendoOXZyZno0OXQ1NCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/akiHW8qDydkm4/giphy.gif";
-  
+
   document.getElementById('main').innerHTML = `
     <div class="meme-container">
       <div class="meme-text">ME:</div>
