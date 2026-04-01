@@ -62,9 +62,7 @@ h1, h2, p { margin: 6px 0; }
   text-overflow: ellipsis;
 }
 
-#yes:hover {
-  transform: scale(1.1);
-}
+#yes:hover { transform: scale(1.1); }
 
 /* Not sure button fixed but text adjusts */
 #no {
@@ -85,10 +83,7 @@ h1, h2, p { margin: 6px 0; }
   transition: transform 0.25s ease, background 0.25s ease;
 }
 
-#no:hover {
-  transform: scale(1.05);
-  background: #666;
-}
+#no:hover { transform: scale(1.05); background: #666; }
 
 /* Click animation for Not sure */
 @keyframes clickPulse {
@@ -98,9 +93,7 @@ h1, h2, p { margin: 6px 0; }
   100% { transform: scale(1); }
 }
 
-.click-animate {
-  animation: clickPulse 0.35s ease;
-}
+.click-animate { animation: clickPulse 0.35s ease; }
 
 /* Mobile adjustments */
 @media (max-width: 600px) {
@@ -109,6 +102,23 @@ h1, h2, p { margin: 6px 0; }
   h1 { font-size: 1.8rem; }
   h2 { font-size: 1.4rem; }
   p { font-size: 1rem; }
+}
+
+/* Meme text style */
+.meme-container {
+  position: relative;
+  display: inline-block;
+  max-width: 90%;
+}
+
+.meme-text {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 2px 2px 4px #000;
 }
 </style>
 </head>
@@ -144,13 +154,10 @@ const btn = document.getElementById('no');
 
 function moveNo() {
   if (locked) return;
-
   if (step < texts.length) {
     btn.innerText = texts[step];
-    
-    // Trigger click animation
-    btn.classList.remove('click-animate'); // reset
-    void btn.offsetWidth; // force reflow
+    btn.classList.remove('click-animate'); // reset animation
+    void btn.offsetWidth;
     btn.classList.add('click-animate');
   }
 
@@ -159,41 +166,36 @@ function moveNo() {
     moveButton();
 
     if (!('ontouchstart' in window)) {
-      btn.onmouseover = moveButton; // PC hover
+      btn.onmouseover = moveButton;
     } else {
-      btn.ontouchstart = (e) => { e.preventDefault(); moveButton(); }; // mobile tap
+      btn.ontouchstart = (e) => { e.preventDefault(); moveButton(); };
     }
   }
   step++;
 }
 
-// Zoom-safe movement
 function moveButton() {
   const padding = 10;
   const btnWidth = btn.offsetWidth;
   const btnHeight = btn.offsetHeight;
-
   const screenWidth = window.innerWidth;
   const screenHeight = window.innerHeight;
-
   const maxX = screenWidth - btnWidth - padding;
   const maxY = screenHeight - btnHeight - padding;
-
   const x = Math.random() * maxX;
   const y = Math.random() * maxY;
-
   btn.style.position = 'fixed';
   btn.style.left = x + 'px';
   btn.style.top = y + 'px';
 }
 
-// Show GIF on yes
 function sayYes() {
   const gifURL = "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTlya3hwanU0ZHY5ZHlqeDh3YnljNGt1a2VtendoOXZyZno0OXQ1NCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/akiHW8qDydkm4/giphy.gif";
   
   document.getElementById('main').innerHTML = `
-    <div>
-      <img src="${gifURL}" style="max-width:90%; border-radius:15px;">
+    <div class="meme-container">
+      <div class="meme-text">ME:</div>
+      <img src="${gifURL}" style="width:100%; border-radius:15px;">
     </div>
   `;
 }
