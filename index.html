@@ -47,7 +47,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 180px;
+  height: 180px; /* fixed height for PC */
   overflow: hidden;
 }
 
@@ -103,7 +103,15 @@ button:active { transform: scale(0.95); }
 
 @media (max-width: 500px) {
   .card { width: 95%; padding: 15px; height: 330px; }
-  .text-container { height: 160px; }
+  .text-container {
+    height: 160px;   /* fixed height for mobile */
+    flex-shrink: 0;  /* prevent shrinking */
+    overflow: hidden; /* clip overflow content */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }
 </style>
 </head>
