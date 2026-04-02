@@ -5,82 +5,86 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A Little Curiosity 😄</title>
 <style>
-  body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #ff9a9e, #a18cd1);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-  }
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #ff9a9e, #a18cd1);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
 
-  .page { display: none; opacity: 0; transition: opacity 0.5s ease; }
-  .active { display: block; opacity: 1; }
+.page { display: none; opacity: 0; transition: opacity 0.5s ease; }
+.active { display: block; opacity: 1; }
 
-  .card {
-    background: rgba(255,255,255,0.15);
-    padding: 25px;
-    border-radius: 20px;
-    backdrop-filter: blur(10px);
-    text-align: center;
-    color: white;
-    width: 90%;
-    max-width: 400px;
-    animation: fadeIn 1s ease;
-    position: relative;
-  }
+.card {
+  background: rgba(255,255,255,0.15);
+  padding: 25px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  text-align: center;
+  color: white;
+  width: 90%;
+  max-width: 400px;
+  height: 320px;               /* Fixed height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* YES/NO buttons stay at bottom */
+  animation: fadeIn 1s ease;
+  overflow: hidden;
+}
 
-  h1 { margin-bottom: 10px; font-size: clamp(18px,4vw,28px); }
-  p { margin-bottom: 20px; line-height: 1.5; font-size: clamp(14px,3.5vw,18px); }
+h1 { margin-bottom: 10px; font-size: clamp(18px,4vw,28px); }
+p { margin-bottom: 0; line-height: 1.5; font-size: clamp(14px,3.5vw,18px); overflow-y: auto; }
 
-  .button-container {
-    position: relative;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    height: 60px;
-  }
+.button-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  height: 60px;
+}
 
-  button {
-    padding: 12px 20px;
-    border: none;
-    border-radius: 25px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-  }
+button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  flex-shrink: 0; /* YES button fixed size */
+}
 
-  .yes-btn {
-    background: #ff4d88;
-    color: white;
-    box-shadow: 0 4px 15px rgba(255,77,136,0.5);
-    animation: pulse 2s infinite;
-  }
+/* YES button */
+.yes-btn {
+  background: #ff4d88;
+  color: white;
+  box-shadow: 0 4px 15px rgba(255,77,136,0.5);
+  animation: pulse 2s infinite;
+}
 
-  .yes-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 25px rgba(255,77,136,0.8);
-  }
+/* NO button */
+.no-btn {
+  background: rgba(255,255,255,0.2);
+  color: white;
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px; /* limit width */
+  font-size: 16px;
+}
 
-  .no-btn {
-    background: rgba(255,255,255,0.2);
-    color: white;
-    position: relative;
-  }
+button:active { transform: scale(0.9); }
 
-  .no-btn:hover { transform: scale(0.95); }
-  button:active { transform: scale(0.9); }
+@keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+@keyframes pulse { 0%{transform:scale(1);} 50%{transform:scale(1.08);} 100%{transform:scale(1);} }
 
-  @keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-  @keyframes pulse { 0%{transform:scale(1);} 50%{transform:scale(1.08);} 100%{transform:scale(1);} }
-
-  @media (max-width: 500px) {
-    .card { width: 95%; padding: 15px; }
-  }
+@media (max-width: 500px) {
+  .card { width: 95%; padding: 15px; }
+}
 </style>
 </head>
 <body>
@@ -163,11 +167,23 @@ let noMessages = [
 let noIndex = 0;
 let evadeMode = false;
 
+function adjustNoFont(){
+  const btn = document.getElementById("noBtn");
+  const maxWidth = 120; // same as CSS
+  let fontSize = 16;
+  btn.style.fontSize = fontSize + "px";
+  while(btn.scrollWidth > maxWidth && fontSize > 10){
+    fontSize -= 1;
+    btn.style.fontSize = fontSize + "px";
+  }
+}
+
 function noClick(){
   const btn = document.getElementById("noBtn");
   if(noIndex < noMessages.length){
     btn.innerText = noMessages[noIndex];
     noIndex++;
+    adjustNoFont();
     if(noIndex === noMessages.length){
       btn.style.position = 'fixed';
       btn.style.zIndex = 1000;
