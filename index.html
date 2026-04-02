@@ -8,36 +8,45 @@
   body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #ff9a9e, #a18cd1);
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    background: linear-gradient(135deg, #ff9a9e, #a18cd1);
     overflow: hidden;
   }
 
   .page { display: none; opacity: 0; transition: opacity 0.5s ease; }
   .active { display: block; opacity: 1; }
 
+  .card-wrapper {
+    width: 90%;
+    max-width: 400px;
+    height: 400px; /* fixed height for all pages */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .card {
+    width: 100%;
+    height: 100%;
     background: rgba(255,255,255,0.15);
     border-radius: 20px;
     backdrop-filter: blur(10px);
     color: white;
-    width: 90%;
-    max-width: 400px;
-    height: 380px; /* fixed height for all pages */
     display: flex;
     flex-direction: column;
     justify-content: center; /* vertical center */
     align-items: center;     /* horizontal center */
-    padding: 25px;
     text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
     position: relative;
   }
 
   h1 { margin-bottom: 10px; font-size: clamp(18px,4vw,28px); }
-  p { margin-bottom: 20px; line-height: 1.5; font-size: clamp(14px,3.5vw,18px); }
+  p { margin-bottom: 20px; line-height: 1.5; font-size: clamp(14px,3.5vw,18px); overflow-wrap: break-word; }
 
   .button-container {
     position: relative;
@@ -77,10 +86,8 @@
   .no-btn:hover { transform: scale(0.95); }
   button:active { transform: scale(0.9); }
 
-  @keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-
   @media (max-width: 500px) {
-    .card { width: 95%; padding: 15px; height: 360px; }
+    .card-wrapper { height: 360px; }
   }
 </style>
 </head>
@@ -88,34 +95,40 @@
 
 <!-- PAGE 1 -->
 <div id="page1" class="page active">
-  <div class="card">
-    <h1>Hi… [name] 😊</h1>
-    <p>Thanks for taking a moment to open this.</p>
-    <div class="button-container">
-      <button class="yes-btn" onclick="nextPage(2)">Next</button>
+  <div class="card-wrapper">
+    <div class="card">
+      <h1>Hey Wedad 😊</h1>
+      <p>Thanks for taking a moment to open this.</p>
+      <div class="button-container">
+        <button class="yes-btn" onclick="nextPage(2)">Next</button>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- PAGE 2 -->
 <div id="page2" class="page">
-  <div class="card">
-    <h1>Just something small…</h1>
-    <p>It might feel sudden, but I’m really curious about you… just a little 😊</p>
-    <div class="button-container">
-      <button class="yes-btn" onclick="nextPage(3)">Continue</button>
+  <div class="card-wrapper">
+    <div class="card">
+      <h1>Just something small…</h1>
+      <p>It might feel sudden, but I’m really curious about you… just a little 😊</p>
+      <div class="button-container">
+        <button class="yes-btn" onclick="nextPage(3)">Continue</button>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- PAGE 3 -->
 <div id="page3" class="page">
-  <div class="card">
-    <h1>Final Question 😳</h1>
-    <p>Would it be okay if I get to know you?</p>
-    <div class="button-container">
-      <button id="yesBtn" class="yes-btn">YES 💖</button>
-      <button id="noBtn" class="no-btn">No 😢</button>
+  <div class="card-wrapper">
+    <div class="card">
+      <h1>Final Question 😳</h1>
+      <p>Would it be okay if I get to know you?</p>
+      <div class="button-container">
+        <button id="yesBtn" class="yes-btn">YES 💖</button>
+        <button id="noBtn" class="no-btn">No 😢</button>
+      </div>
     </div>
   </div>
 </div>
