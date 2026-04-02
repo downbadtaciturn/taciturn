@@ -5,125 +5,174 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A Little Curiosity 😄</title>
 <style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, #ff9a9e, #a18cd1);
-  overflow: hidden;
-}
-.page { display: none; opacity: 0; transition: opacity 0.5s ease; }
-.active { display: block; opacity: 1; }
-.card-wrapper { width: 400px; height: 400px; display: flex; justify-content: center; align-items: center; }
-.card {
-  width: 100%;
-  height: 100%;
-  background: rgba(255,255,255,0.15);
-  border-radius: 20px;
-  backdrop-filter: blur(10px);
-  color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 20px;
-  box-sizing: border-box;
-  position: relative;
-  overflow: hidden;
-}
-h1 { margin-bottom: 10px; font-size: 22px; word-wrap: break-word; overflow-wrap: break-word; }
-p { margin-bottom: 20px; line-height: 1.5; font-size: 16px; word-wrap: break-word; overflow-wrap: break-word; }
-.button-container { position: relative; width: 100%; display: flex; justify-content: center; gap: 10px; height: 60px; }
-button { padding: 12px 20px; border: none; border-radius: 25px; font-size: 16px; cursor: pointer; transition: all 0.3s ease; white-space: nowrap; }
-.yes-btn { background: #ff4d88; color: white; box-shadow: 0 4px 15px rgba(255,77,136,0.5); z-index: 10; }
-.yes-btn:hover { transform: scale(1.05); }
-.no-btn { background: rgba(255,255,255,0.2); color: white; position: relative; z-index: 5; }
-.no-btn:hover { transform: scale(0.95); }
-button:active { transform: scale(0.9); }
-@media (max-width: 500px) {
-  .card-wrapper { width: 360px; height: 360px; }
-  h1 { font-size: 20px; }
-  p { font-size: 14px; }
-}
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #ff9a9e, #a18cd1);
+    overflow: hidden;
+  }
+
+  .page { display: none; opacity: 0; transition: opacity 0.5s ease; }
+  .active { display: block; opacity: 1; }
+
+  .card-wrapper {
+    width: 400px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card {
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.15);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+  }
+
+  h1 { margin-bottom: 10px; font-size: 22px; word-wrap: break-word; overflow-wrap: break-word; }
+  p { margin-bottom: 20px; line-height: 1.5; font-size: 16px; word-wrap: break-word; overflow-wrap: break-word; }
+
+  .button-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    height: 60px;
+  }
+
+  button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .yes-btn {
+    background: #ff4d88;
+    color: white;
+    box-shadow: 0 4px 15px rgba(255,77,136,0.5);
+    z-index: 10;
+    transition: width 0.3s, height 0.3s; /* smooth growth */
+  }
+
+  .yes-btn:hover { transform: scale(1.05); }
+
+  .no-btn {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    position: relative;
+    z-index: 5;
+  }
+
+  .no-btn:hover { transform: scale(0.95); }
+  button:active { transform: scale(0.9); }
+
+  @media (max-width: 500px) {
+    .card-wrapper { width: 360px; height: 360px; }
+    h1 { font-size: 20px; }
+    p { font-size: 14px; }
+  }
 </style>
 </head>
 <body>
 
-<!-- Pages -->
+<!-- PAGE 1 -->
 <div id="page1" class="page active">
-  <div class="card-wrapper"><div class="card">
-    <h1>Hey Wedad 😊</h1>
-    <p>Thanks for taking a moment to open this.</p>
-    <div class="button-container"><button class="yes-btn" onclick="nextPage(2)">Next</button></div>
-  </div></div>
-</div>
-
-<div id="page2" class="page">
-  <div class="card-wrapper"><div class="card">
-    <h1>Just something small…</h1>
-    <p>It might feel sudden, but I’m really curious about you… just a little 😊</p>
-    <div class="button-container"><button class="yes-btn" onclick="nextPage(3)">Continue</button></div>
-  </div></div>
-</div>
-
-<div id="page3" class="page">
-  <div class="card-wrapper"><div class="card">
-    <h1>Final Question 😳</h1>
-    <p>Would it be okay if I get to know you?</p>
-    <div class="button-container">
-      <button id="yesBtn" class="yes-btn">YES 💖</button>
-      <button id="noBtn" class="no-btn">No 😢</button>
+  <div class="card-wrapper">
+    <div class="card">
+      <h1>Hey Wedad 😊</h1>
+      <p>Thanks for taking a moment to open this.</p>
+      <div class="button-container">
+        <button class="yes-btn" onclick="nextPage(2)">Next</button>
+      </div>
     </div>
-  </div></div>
+  </div>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2" class="page">
+  <div class="card-wrapper">
+    <div class="card">
+      <h1>Just something small…</h1>
+      <p>It might feel sudden, but I’m really curious about you… just a little 😊</p>
+      <div class="button-container">
+        <button class="yes-btn" onclick="nextPage(3)">Continue</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 3 -->
+<div id="page3" class="page">
+  <div class="card-wrapper">
+    <div class="card">
+      <h1>Final Question 😳</h1>
+      <p>Would it be okay if I get to know you?</p>
+      <div class="button-container">
+        <button id="yesBtn" class="yes-btn">YES 💖</button>
+        <button id="noBtn" class="no-btn">No 😢</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
 // PAGE NAVIGATION
-function nextPage(num){
+function nextPage(pageNumber){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.getElementById("page"+num).classList.add("active");
+  document.getElementById("page"+pageNumber).classList.add("active");
 }
 
-// BUTTON ELEMENTS
-let yesClicked=false;
-const yesBtn=document.getElementById("yesBtn");
-const noBtn=document.getElementById("noBtn");
-const card=document.querySelector("#page3 .card");
+// YES BUTTON
+let yesClicked = false;
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const card = document.querySelector("#page3 .card");
 
-// YES CLICK
-yesBtn.addEventListener("click", e=>{
-  if(yesClicked) return;
-  yesClicked=true;
-  e.stopPropagation();
-  document.body.innerHTML=`<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:linear-gradient(135deg,#ff9a9e,#a18cd1);">
-  <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTlya3hwanU0ZHY5ZHlqeDh3YnljNGt1a2VtendoOXZyZno0OXQ1NCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/akiHW8qDydkm4/giphy.gif" style="width:80%;max-width:400px;border-radius:20px;"></div>`;
+yesBtn.addEventListener("click", function(){
+  if(yesClicked) return; 
+  yesClicked = true;
+  document.body.innerHTML = `
+    <div style="display:flex;justify-content:center;align-items:center;height:100vh;background:linear-gradient(135deg, #ff9a9e, #a18cd1);">
+      <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTlya3hwanU0ZHY5ZHlqeDh3YnljNGt1a2VtendoOXZyZno0OXQ1NCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/akiHW8qDydkm4/giphy.gif"
+      style="width:80%;max-width:400px;border-radius:20px;">
+    </div>`;
 });
 
-// NO MESSAGES
-let noMessages=["Wait… sure ka? 😅","Not even a little curious? 😄","Like 100% sure? 🥺","Just one chance? 😆","I promise I’m nice 😄","Let’s find out? 😊","Last chance 😏"];
-let noIndex=0;
-let evadeMode=false;
+// NO BUTTON LOGIC SAFE FOR MOBILE & DESKTOP
+let noMessages = [
+  "Wait… sure ka? 😅",
+  "Not even a little curious? 😄",
+  "Like 100% sure? 🥺",
+  "Just one chance? 😆",
+  "I promise I’m nice 😄",
+  "Let’s find out? 😊",
+  "Last chance 😏"
+];
+let noIndex = 0;
+let evadeMode = false;
 
-// NO CLICK MESSAGES
-noBtn.addEventListener("click", e=>{
-  if(noIndex<noMessages.length){
-    noBtn.innerText=noMessages[noIndex]; noIndex++;
-    if(noIndex===noMessages.length){evadeMode=true; noBtn.style.position="absolute"; noBtn.style.zIndex=1000;}
-  }
-  // YES grows safely
-  let h=card.offsetHeight; yesBtn.style.height=Math.min(h*0.6, yesBtn.offsetHeight+20)+"px";
-  yesBtn.style.width=Math.min(220, yesBtn.offsetWidth+15)+"px";
-  // shrink NO text
-  let newH=Math.max(12,noBtn.offsetHeight-5); noBtn.style.height=newH+"px";
-  noBtn.style.fontSize=Math.max(8,16*(newH/50))+"px";
-  e.stopPropagation();
-});
-
-// MOVE NO FREELY (SAFE: never overlaps YES)
+// Move NO button safely
 function moveNO(){
   const yesRect = yesBtn.getBoundingClientRect();
   const cardRect = card.getBoundingClientRect();
@@ -131,19 +180,23 @@ function moveNO(){
   const yesY = yesRect.top - cardRect.top;
   const yesW = yesRect.width;
   const yesH = yesRect.height;
-
   const noW = noBtn.offsetWidth;
   const noH = noBtn.offsetHeight;
-  const buffer = 20; // safe space around YES
-
+  const buffer = 10;
   let x, y;
-  let attempts = 0;
-  do {
+
+  const maxAttempts = 300;
+  for(let i=0; i<maxAttempts; i++){
     x = Math.random() * (card.offsetWidth - noW);
     y = Math.random() * (card.offsetHeight - noH);
-    attempts++;
-    if(attempts>300) break; // fallback
-  } while(!(x + noW + buffer < yesX || x - buffer > yesX + yesW || y + noH + buffer < yesY || y - buffer > yesY + yesH));
+
+    const overlap = !(x + noW + buffer < yesX ||
+                      x - buffer > yesX + yesW ||
+                      y + noH + buffer < yesY ||
+                      y - buffer > yesY + yesH);
+
+    if(!overlap) break;
+  }
 
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
@@ -151,32 +204,50 @@ function moveNO(){
   noBtn.style.transform = "none";
 }
 
-// MOBILE-SAFE LOGIC
-const isMobile = 'ontouchstart' in window;
-let isDraggingNo = false;
+// Unified handler for desktop and mobile
+function handleNoClick(e){
+  e.preventDefault(); // prevent mobile double click
+  yesBtn.disabled = true; // temporarily prevent Yes clicks
 
-if(isMobile){
-  noBtn.addEventListener("touchstart", e=>{
-    if(evadeMode){ isDraggingNo=true; moveNO(); }
-  });
-  noBtn.addEventListener("touchmove", e=>{
-    if(evadeMode && isDraggingNo){ moveNO(); }
-  });
-  noBtn.addEventListener("touchend", e=>{
-    isDraggingNo=false;
-  });
-  noBtn.addEventListener("click", e=>{
-    if(isDraggingNo) e.preventDefault(); // prevent accidental click
-  });
-}else{
-  document.addEventListener("mousemove", e=>{
-    if(!evadeMode) return;
-    const r=noBtn.getBoundingClientRect();
-    if(Math.abs(e.clientX-(r.left+r.width/2))<80 && Math.abs(e.clientY-(r.top+r.height/2))<80){
-      moveNO();
+  if(noIndex < noMessages.length){
+    noBtn.innerText = noMessages[noIndex];
+    noIndex++;
+    if(noIndex === noMessages.length){
+      evadeMode = true;
+      noBtn.style.zIndex = 1000;
     }
-  });
+  }
+
+  if(evadeMode) moveNO();
+
+  const cardHeight = card.offsetHeight;
+  yesBtn.style.height = Math.min(cardHeight*0.6, yesBtn.offsetHeight + 20) + "px";
+  yesBtn.style.width = Math.min(220, yesBtn.offsetWidth + 15) + "px";
+
+  let newH = Math.max(12, noBtn.offsetHeight - 5);
+  noBtn.style.height = newH + "px";
+  noBtn.style.fontSize = Math.max(8, 16*(newH/50)) + "px";
+
+  setTimeout(()=> yesBtn.disabled = false, 250); // re-enable Yes safely
 }
+
+noBtn.addEventListener("click", handleNoClick);
+noBtn.addEventListener("touchstart", handleNoClick);
+
+// Evade hover for desktop
+document.addEventListener("mousemove", e=>{
+  if(!evadeMode) return;
+  const r = noBtn.getBoundingClientRect();
+  if(Math.abs(e.clientX-(r.left+r.width/2))<80 && Math.abs(e.clientY-(r.top+r.height/2))<80){
+    moveNO();
+  }
+});
+
+// Evade touch for mobile
+document.addEventListener("touchstart", ()=>{
+  if(evadeMode) moveNO();
+});
 </script>
+
 </body>
 </html>
