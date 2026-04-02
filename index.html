@@ -6,24 +6,35 @@
 <title>A Little Curiosity 😄</title>
 
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
-body {
+html, body {
   margin: 0;
+  padding: 0;
+  height: 100%;
   font-family: 'Segoe UI', sans-serif;
   background: linear-gradient(135deg, #ff9a9e, #a18cd1);
+}
 
-  height: 100vh;
+/* FIXED CENTERING (REAL FIX) */
+body {
+  min-height: 100dvh;
+}
+
+/* PAGES = FULL SCREEN CENTER */
+.page {
+  display: none;
+  width: 100%;
+  height: 100dvh;
+
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* pages */
-.page { display: none; }
-.active { display: block; }
+.page.active {
+  display: flex;
+}
 
 /* FIXED CONTAINER */
 .card {
@@ -41,9 +52,8 @@ body {
 
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-
   padding: 20px;
+
   overflow: hidden;
 }
 
@@ -59,8 +69,6 @@ body {
   align-items: center;
 
   text-align: center;
-  overflow: hidden;
-
   flex-shrink: 0;
 }
 
@@ -70,7 +78,7 @@ body {
   font-size: clamp(16px, 4vw, 26px);
 }
 
-/* BUTTON AREA */
+/* BUTTONS */
 .button-container {
   margin-top: auto;
   display: flex;
@@ -78,7 +86,6 @@ body {
   gap: 10px;
 }
 
-/* BUTTONS */
 button {
   height: 50px;
   min-width: 80px;
@@ -105,10 +112,6 @@ button:active { transform: scale(0.95); }
 
 /* MOBILE FIX */
 @media (max-width: 500px) {
-  body {
-    height: 100dvh; /* better mobile fit */
-  }
-
   .card {
     height: 330px;
     min-height: 330px;
@@ -168,13 +171,13 @@ button:active { transform: scale(0.95); }
 
 <script>
 function nextPage(p){
-  document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
-  document.getElementById("page"+p).classList.add("active");
+  document.querySelectorAll(".page").forEach(x=>x.style.display="none");
+  document.getElementById("page"+p).style.display="flex";
 }
 
 function yesClick(){
   document.body.innerHTML = `
-  <div style="display:flex;justify-content:center;align-items:center;height:100vh;">
+  <div style="display:flex;justify-content:center;align-items:center;height:100dvh;">
     <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTlya3hwanU0ZHY5ZHlqeDh3YnljNGt1a2VtendoOXZyZno0OXQ1NCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/akiHW8qDydkm4/giphy.gif"
     style="width:80%;max-width:400px;border-radius:20px;">
   </div>`;
@@ -199,13 +202,10 @@ function noClick(){
 
   let cardHeight = document.querySelector("#page3 .card").offsetHeight;
 
-  // YES grow (balanced)
   let y = parseFloat(getComputedStyle(yes).height);
-  let newY = Math.min(cardHeight * 0.6, y + 20);
-  yes.style.height = newY + "px";
+  yes.style.height = Math.min(cardHeight * 0.6, y + 20) + "px";
   yes.style.width = Math.min(220, yes.offsetWidth + 15) + "px";
 
-  // NO shrink
   let n = parseFloat(getComputedStyle(no).height);
   let newN = Math.max(12, n - 8);
   no.style.height = newN + "px";
@@ -213,7 +213,6 @@ function noClick(){
   let font = Math.max(8, 16*(newN/50));
   no.style.fontSize = font + "px";
 
-  // text change
   if(i < msgs.length){
     no.innerText = msgs[i];
     i++;
