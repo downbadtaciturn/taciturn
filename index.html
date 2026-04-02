@@ -138,7 +138,7 @@
 <script>
 // PAGE NAVIGATION
 function nextPage(pageNumber){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
   document.getElementById("page"+pageNumber).classList.add("active");
 }
 
@@ -182,25 +182,24 @@ noBtn.addEventListener("click", function(){
     }
   }
 
-  // YES grows safely
+  // safely grow YES
   let cardHeight = card.offsetHeight;
   yesBtn.style.height = Math.min(cardHeight*0.6, yesBtn.offsetHeight + 20) + "px";
   yesBtn.style.width = Math.min(220, yesBtn.offsetWidth + 15) + "px";
 
-  // NO shrinks text only
+  // shrink NO text only
   let newH = Math.max(12, noBtn.offsetHeight - 5);
   noBtn.style.height = newH + "px";
   noBtn.style.fontSize = Math.max(8, 16*(newH/50)) + "px";
-
-  if(evadeMode) moveNO();
 });
 
-// IMPROVED moveNO: relative to card, never overlaps YES
+// IMPROVED moveNO: NO never overlaps YES
 function moveNO(){
+  noBtn.style.pointerEvents = "none"; // temporarily ignore clicks
+
   const yesRect = yesBtn.getBoundingClientRect();
   const cardRect = card.getBoundingClientRect();
 
-  // YES relative to card
   const yesX = yesRect.left - cardRect.left;
   const yesY = yesRect.top - cardRect.top;
   const yesW = yesRect.width;
@@ -208,39 +207,46 @@ function moveNO(){
 
   const noW = noBtn.offsetWidth;
   const noH = noBtn.offsetHeight;
-  const buffer = 10;
-  let x, y;
-  const maxAttempts = 300;
+  const buffer = 10; // minimum gap
 
-  for(let i=0; i<maxAttempts; i++){
-    x = Math.random() * (card.offsetWidth - noW);
-    y = Math.random() * (card.offsetHeight - noH);
+  const zones = [
+    { xMin: 0, xMax: card.offsetWidth - noW, yMin: 0, yMax: yesY - noH - buffer }, // above
+    { xMin: 0, xMax: card.offsetWidth - noW, yMin: yesY + yesH + buffer, yMax: card.offsetHeight - noH }, // below
+    { xMin: 0, xMax: yesX - noW - buffer, yMin: yesY, yMax: yesY + yesH }, // left
+    { xMin: yesX + yesW + buffer, xMax: card.offsetWidth - noW, yMin: yesY, yMax: yesY + yesH } // right
+  ];
 
-    const overlap = !(x + noW + buffer < yesX ||
-                      x - buffer > yesX + yesW ||
-                      y + noH + buffer < yesY ||
-                      y - buffer > yesY + yesH);
+  const validZones = zones.filter(z => z.xMax > z.xMin && z.yMax > z.yMin);
 
-    if(!overlap) break; // safe
+  if(validZones.length === 0){
+    noBtn.style.left = "0px";
+    noBtn.style.top = "0px";
+  } else {
+    const z = validZones[Math.floor(Math.random() * validZones.length)];
+    const x = z.xMin + Math.random() * (z.xMax - z.xMin);
+    const y = z.yMin + Math.random() * (z.yMax - z.yMin);
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+    noBtn.style.position = "absolute";
+    noBtn.style.transform = "none";
   }
 
-  noBtn.style.left = x + "px";
-  noBtn.style.top = y + "px";
-  noBtn.style.position = "absolute";
-  noBtn.style.transform = "none";
+  setTimeout(()=>{ noBtn.style.pointerEvents = "auto"; }, 50);
 }
 
 // Evade hover (PC)
-document.addEventListener("mousemove", e=>{
+document.addEventListener("mousemove", e => {
   if(!evadeMode) return;
   const r = noBtn.getBoundingClientRect();
-  if(Math.abs(e.clientX-(r.left+r.width/2))<80 && Math.abs(e.clientY-(r.top+r.height/2))<80){
+  if(Math.abs(e.clientX - (r.left + r.width/2)) < 80 &&
+     Math.abs(e.clientY - (r.top + r.height/2)) < 80){
     moveNO();
   }
 });
 
 // Evade touch (mobile)
-document.addEventListener("touchstart", ()=>{
+document.addEventListener("touchstart", () => {
   if(evadeMode) moveNO();
 });
 </script>
