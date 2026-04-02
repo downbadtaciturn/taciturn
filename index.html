@@ -6,41 +6,71 @@
 <title>A Little Curiosity 😄</title>
 
 <style>
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
   background: linear-gradient(135deg, #ff9a9e, #a18cd1);
+
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+/* pages */
 .page { display: none; }
 .active { display: block; }
 
+/* FIXED CONTAINER */
 .card {
   width: 90%;
   max-width: 400px;
+
   height: 350px;
+  min-height: 350px;
+  max-height: 350px;
+
   background: rgba(255,255,255,0.15);
   border-radius: 20px;
   backdrop-filter: blur(10px);
   color: white;
+
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+
   padding: 20px;
+  overflow: hidden;
 }
 
+/* FIXED TEXT AREA */
 .text-container {
   height: 180px;
+  min-height: 180px;
+  max-height: 180px;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
   text-align: center;
+  overflow: hidden;
+
+  flex-shrink: 0;
 }
 
+.text-container h1,
+.text-container p {
+  margin: 5px 0;
+  font-size: clamp(16px, 4vw, 26px);
+}
+
+/* BUTTON AREA */
 .button-container {
   margin-top: auto;
   display: flex;
@@ -48,13 +78,14 @@ body {
   gap: 10px;
 }
 
+/* BUTTONS */
 button {
   height: 50px;
   min-width: 80px;
   border: none;
   border-radius: 25px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: all 0.3s ease;
 }
 
 .yes-btn {
@@ -66,14 +97,29 @@ button {
   background: rgba(255,255,255,0.2);
   color: white;
   max-width: 120px;
+  text-align: center;
 }
 
 button:hover { transform: scale(1.05); }
 button:active { transform: scale(0.95); }
 
+/* MOBILE FIX */
 @media (max-width: 500px) {
-  .card { height: 330px; }
-  .text-container { height: 160px; }
+  body {
+    height: 100dvh; /* better mobile fit */
+  }
+
+  .card {
+    height: 330px;
+    min-height: 330px;
+    max-height: 330px;
+  }
+
+  .text-container {
+    height: 160px;
+    min-height: 160px;
+    max-height: 160px;
+  }
 }
 </style>
 </head>
@@ -129,7 +175,8 @@ function nextPage(p){
 function yesClick(){
   document.body.innerHTML = `
   <div style="display:flex;justify-content:center;align-items:center;height:100vh;">
-    <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTlya3hwanU0ZHY5ZHlqeDh3YnljNGt1a2VtendoOXZyZno0OXQ1NCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/akiHW8qDydkm4/giphy.gif" style="width:80%;max-width:400px;border-radius:20px;">
+    <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTlya3hwanU0ZHY5ZHlqeDh3YnljNGt1a2VtendoOXZyZno0OXQ1NCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/akiHW8qDydkm4/giphy.gif"
+    style="width:80%;max-width:400px;border-radius:20px;">
   </div>`;
 }
 
