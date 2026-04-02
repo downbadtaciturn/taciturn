@@ -21,19 +21,19 @@
 
   .card {
     background: rgba(255,255,255,0.15);
-    padding: 25px;
     border-radius: 20px;
     backdrop-filter: blur(10px);
-    text-align: center;
     color: white;
     width: 90%;
     max-width: 400px;
-    animation: fadeIn 1s ease;
-    position: relative;
+    height: 380px; /* fixed height for all pages */
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: center; /* vertical center */
+    align-items: center;     /* horizontal center */
+    padding: 25px;
+    text-align: center;
+    position: relative;
   }
 
   h1 { margin-bottom: 10px; font-size: clamp(18px,4vw,28px); }
@@ -80,7 +80,7 @@
   @keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
 
   @media (max-width: 500px) {
-    .card { width: 95%; padding: 15px; }
+    .card { width: 95%; padding: 15px; height: 360px; }
   }
 </style>
 </head>
@@ -89,7 +89,7 @@
 <!-- PAGE 1 -->
 <div id="page1" class="page active">
   <div class="card">
-    <h1>Hey Wedad😊</h1>
+    <h1>Hi… [name] 😊</h1>
     <p>Thanks for taking a moment to open this.</p>
     <div class="button-container">
       <button class="yes-btn" onclick="nextPage(2)">Next</button>
