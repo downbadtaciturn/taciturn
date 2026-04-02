@@ -4,96 +4,105 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A Little Curiosity 😄</title>
+
 <style>
-  body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #ff9a9e, #a18cd1);
-    overflow: hidden;
-  }
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #ff9a9e, #a18cd1);
+  overflow: hidden;
+}
 
-  .page { display: none; opacity: 0; transition: opacity 0.5s ease; }
-  .active { display: block; opacity: 1; }
+.page { display: none; opacity: 0; transition: opacity 0.5s ease; }
+.active { display: block; opacity: 1; }
 
-  .card-wrapper {
-    width: 400px;
-    height: 400px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.card-wrapper {
+  width: 400px;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .card {
-    width: 100%;
-    height: 100%;
-    background: rgba(255,255,255,0.15);
-    border-radius: 20px;
-    backdrop-filter: blur(10px);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
-    box-sizing: border-box;
-    position: relative;
-    overflow: hidden;
-  }
+.card {
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.15);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
 
-  h1 { margin-bottom: 10px; font-size: 22px; word-wrap: break-word; overflow-wrap: break-word; }
-  p { margin-bottom: 20px; line-height: 1.5; font-size: 16px; word-wrap: break-word; overflow-wrap: break-word; }
+h1 { margin-bottom: 10px; font-size: 22px; }
+p { margin-bottom: 20px; font-size: 16px; }
 
-  .button-container {
-    position: relative;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    height: 60px;
-  }
+.button-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  height: 60px;
+}
 
-  button {
-    padding: 12px 20px;
-    border: none;
-    border-radius: 25px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-  }
+button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
 
-  .yes-btn {
-    background: #ff4d88;
-    color: white;
-    box-shadow: 0 4px 15px rgba(255,77,136,0.5);
-    z-index: 10;
-    transition: width 0.3s, height 0.3s; /* smooth growth */
-  }
+/* YES BUTTON */
+.yes-btn {
+  background: #ff4d88;
+  color: white;
+  box-shadow: 0 4px 15px rgba(255,77,136,0.5);
+  z-index: 10;
+  transition: width 0.3s, height 0.3s;
+}
 
-  .yes-btn:hover { transform: scale(1.05); }
+/* SHAKE ANIMATION */
+@keyframes shake {
+  0% { transform: scale(1) translateX(0); }
+  25% { transform: scale(1.05) translateX(-2px); }
+  50% { transform: scale(1.05) translateX(2px); }
+  75% { transform: scale(1.05) translateX(-2px); }
+  100% { transform: scale(1) translateX(0); }
+}
 
-  .no-btn {
-    background: rgba(255,255,255,0.2);
-    color: white;
-    position: relative;
-    z-index: 5;
-  }
+.yes-shake {
+  animation: shake 0.3s ease;
+}
 
-  .no-btn:hover { transform: scale(0.95); }
-  button:active { transform: scale(0.9); }
+/* NO BUTTON */
+.no-btn {
+  background: rgba(255,255,255,0.2);
+  color: white;
+  position: relative;
+  z-index: 5;
+}
 
-  @media (max-width: 500px) {
-    .card-wrapper { width: 360px; height: 360px; }
-    h1 { font-size: 20px; }
-    p { font-size: 14px; }
-  }
+@media (max-width: 500px) {
+  .card-wrapper { width: 360px; height: 360px; }
+}
 </style>
 </head>
+
 <body>
 
 <!-- PAGE 1 -->
@@ -102,9 +111,7 @@
     <div class="card">
       <h1>Hey Wedad 😊</h1>
       <p>Thanks for taking a moment to open this.</p>
-      <div class="button-container">
-        <button class="yes-btn" onclick="nextPage(2)">Next</button>
-      </div>
+      <button class="yes-btn" onclick="nextPage(2)">Next</button>
     </div>
   </div>
 </div>
@@ -114,10 +121,12 @@
   <div class="card-wrapper">
     <div class="card">
       <h1>Just something small…</h1>
-      <p>It might feel sudden, but I’m really curious about you… just a little 😊</p>
-      <div class="button-container">
-        <button class="yes-btn" onclick="nextPage(3)">Continue</button>
-      </div>
+      <p>This might feel a bit random… 
+I’ve actually wanted to talk to you for a while,
+but I tend to overthink things… 
+So… this is why I created this little interactive website 😊
+I thought maybe it’s a fun way to finally say hi, even just a little.</p>
+      <button class="yes-btn" onclick="nextPage(3)">Continue</button>
     </div>
   </div>
 </div>
@@ -126,124 +135,211 @@
 <div id="page3" class="page">
   <div class="card-wrapper">
     <div class="card">
-      <h1>Final Question 😳</h1>
-      <p>Would it be okay if I get to know you?</p>
+      <h1>Can I ask you something?</h1>
+      <p>This might be a bit awkward to ask… 😅
+but would it be okay if I try to get to know you?</p>
       <div class="button-container">
-        <button id="yesBtn" class="yes-btn">YES 💖</button>
-        <button id="noBtn" class="no-btn">No 😢</button>
+        <button id="yesBtn" class="yes-btn">Sure 💖</button>
+        <button id="noBtn" class="no-btn">Not sure 😢</button>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-// PAGE NAVIGATION
-function nextPage(pageNumber){
+// PAGE NAV
+function nextPage(n){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.getElementById("page"+pageNumber).classList.add("active");
+  document.getElementById("page"+n).classList.add("active");
 }
 
-// YES BUTTON
-let yesClicked = false;
+// ELEMENTS
 const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
 const card = document.querySelector("#page3 .card");
 
-yesBtn.addEventListener("click", function(){
-  if(yesClicked) return; 
-  yesClicked = true;
-  document.body.innerHTML = `
-    <div style="display:flex;justify-content:center;align-items:center;height:100vh;background:linear-gradient(135deg, #ff9a9e, #a18cd1);">
-      <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTlya3hwanU0ZHY5ZHlqeDh3YnljNGt1a2VtendoOXZyZno0OXQ1NCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/akiHW8qDydkm4/giphy.gif"
-      style="width:80%;max-width:400px;border-radius:20px;">
-    </div>`;
-});
+let yesClicked = false;
 
-// NO BUTTON LOGIC SAFE FOR MOBILE & DESKTOP
+// YES CLICK - BEAUTIFUL GIF + CONFETTI
+yesBtn.onclick = () => {
+  if(yesClicked) return;
+  yesClicked = true;
+
+  document.body.innerHTML = `
+  <div style="
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+      background: linear-gradient(135deg,#ff9a9e,#a18cd1);
+      font-family:'Segoe UI', sans-serif;
+      overflow:hidden;
+      flex-direction:column;
+      text-align:center;
+      padding:20px;
+      box-sizing:border-box;
+    ">
+    <div style="
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(15px);
+      border-radius: 25px;
+      padding: 30px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      animation: fadeIn 0.5s ease forwards;
+      position: relative;
+      overflow: hidden;
+    ">
+      <h1 style="color:white; font-size:24px; margin-bottom:20px;">Yay! 💖</h1>
+      <p style="color:white; font-size:16px; margin-bottom:20px;">
+        You made me this happy 😆:
+      </p>
+      <img src="https://media.giphy.com/media/akiHW8qDydkm4/giphy.gif" 
+           style="width:100%; border-radius:15px; box-shadow:0 5px 20px rgba(0,0,0,0.2);" />
+      <canvas id="confettiCanvas" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;"></canvas>
+    </div>
+  </div>
+
+  <style>
+    @keyframes fadeIn {
+      from {opacity:0; transform: scale(0.95);}
+      to {opacity:1; transform: scale(1);}
+    }
+  </style>
+  `;
+
+  // CONFETTI
+  const canvas = document.getElementById('confettiCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight;
+
+  const confettiCount = 100;
+  const confetti = [];
+  for(let i=0;i<confettiCount;i++){
+    confetti.push({
+      x: Math.random()*canvas.width,
+      y: Math.random()*canvas.height,
+      r: Math.random()*6+2,
+      d: Math.random()*confettiCount,
+      color: `hsl(${Math.random()*360}, 100%, 50%)`,
+      tilt: Math.random()*10-10,
+      tiltAngleIncremental: Math.random()*0.07+0.05,
+      tiltAngle: 0
+    });
+  }
+
+  function drawConfetti(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    confetti.forEach((c,i)=>{
+      ctx.beginPath();
+      ctx.lineWidth = c.r;
+      ctx.strokeStyle = c.color;
+      ctx.moveTo(c.x + c.tilt + c.r/2, c.y);
+      ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r/2);
+      ctx.stroke();
+    });
+    updateConfetti();
+  }
+
+  function updateConfetti(){
+    confetti.forEach((c,i)=>{
+      c.tiltAngle += c.tiltAngleIncremental;
+      c.y += (Math.cos(c.d) + 3 + c.r/2)/2;
+      c.x += Math.sin(c.d);
+      c.tilt = Math.sin(c.tiltAngle) * 12;
+
+      if(c.y > canvas.height) c.y = -10;
+      if(c.x > canvas.width) c.x = 0;
+      if(c.x < 0) c.x = canvas.width;
+    });
+  }
+
+  setInterval(drawConfetti, 20);
+};
+
+// NO BUTTON LOGIC
 let noMessages = [
-  "Wait… sure ka? 😅",
-  "Not even a little curious? 😄",
-  "Like 100% sure? 🥺",
-  "Just one chance? 😆",
-  "I promise I’m nice 😄",
-  "Let’s find out? 😊",
+  "Wait… sure? 😅",
+  "Really no? 😄",
+  "100% sure? 🥺",
+  "One chance? 😆",
+  "I’m nice 😄",
+  "Let’s try? 😊",
   "Last chance 😏"
 ];
+
 let noIndex = 0;
 let evadeMode = false;
 
-// Move NO button safely
+// MOVE NO BUTTON
 function moveNO(){
-  const yesRect = yesBtn.getBoundingClientRect();
-  const cardRect = card.getBoundingClientRect();
-  const yesX = yesRect.left - cardRect.left;
-  const yesY = yesRect.top - cardRect.top;
-  const yesW = yesRect.width;
-  const yesH = yesRect.height;
   const noW = noBtn.offsetWidth;
   const noH = noBtn.offsetHeight;
-  const buffer = 10;
-  let x, y;
 
-  const maxAttempts = 300;
-  for(let i=0; i<maxAttempts; i++){
-    x = Math.random() * (card.offsetWidth - noW);
-    y = Math.random() * (card.offsetHeight - noH);
-
-    const overlap = !(x + noW + buffer < yesX ||
-                      x - buffer > yesX + yesW ||
-                      y + noH + buffer < yesY ||
-                      y - buffer > yesY + yesH);
-
-    if(!overlap) break;
-  }
+  let x = Math.random() * (card.offsetWidth - noW);
+  let y = Math.random() * (card.offsetHeight - noH);
 
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
   noBtn.style.position = "absolute";
-  noBtn.style.transform = "none";
 }
 
-// Unified handler for desktop and mobile
-function handleNoClick(e){
-  e.preventDefault(); // prevent mobile double click
-  yesBtn.disabled = true; // temporarily prevent Yes clicks
+// HANDLE NO CLICK
+function handleNo(e){
+  e.preventDefault();
+  yesBtn.disabled = true;
 
   if(noIndex < noMessages.length){
     noBtn.innerText = noMessages[noIndex];
     noIndex++;
     if(noIndex === noMessages.length){
       evadeMode = true;
-      noBtn.style.zIndex = 1000;
     }
   }
 
   if(evadeMode) moveNO();
 
-  const cardHeight = card.offsetHeight;
-  yesBtn.style.height = Math.min(cardHeight*0.6, yesBtn.offsetHeight + 20) + "px";
+  // YES GROW + SHAKE
   yesBtn.style.width = Math.min(220, yesBtn.offsetWidth + 15) + "px";
+  yesBtn.style.height = Math.min(200, yesBtn.offsetHeight + 20) + "px";
 
-  let newH = Math.max(12, noBtn.offsetHeight - 5);
+  yesBtn.classList.remove("yes-shake");
+  void yesBtn.offsetWidth;
+  yesBtn.classList.add("yes-shake");
+
+  // NO SHRINK + TRANSFORM
+  let newH = Math.max(6, noBtn.offsetHeight - 8);
+  let newW = Math.max(20, noBtn.offsetWidth - 10);
+
   noBtn.style.height = newH + "px";
-  noBtn.style.fontSize = Math.max(8, 16*(newH/50)) + "px";
+  noBtn.style.width = newW + "px";
+  noBtn.style.fontSize = Math.max(6, newH * 0.4) + "px";
+  noBtn.style.padding = Math.max(2, newH * 0.2) + "px";
+  noBtn.style.opacity = Math.max(0.2, newH / 50);
 
-  setTimeout(()=> yesBtn.disabled = false, 250); // re-enable Yes safely
+  if(newH < 40 && newH >= 25) noBtn.innerText = "😅";
+  else if(newH < 25 && newH >= 15) noBtn.innerText = "🥺";
+  else if(newH < 15 && newH >= 10) noBtn.innerText = "...";
+  else if(newH < 10) noBtn.innerText = "";
+
+  if(newH <= 8){
+    noBtn.style.pointerEvents = "none";
+    setTimeout(()=> noBtn.style.display = "none", 300);
+  }
+
+  setTimeout(()=> yesBtn.disabled = false, 250);
 }
 
-noBtn.addEventListener("click", handleNoClick);
-noBtn.addEventListener("touchstart", handleNoClick);
+noBtn.addEventListener("click", handleNo);
+noBtn.addEventListener("touchstart", handleNo);
 
-// Evade hover for desktop
 document.addEventListener("mousemove", e=>{
   if(!evadeMode) return;
-  const r = noBtn.getBoundingClientRect();
-  if(Math.abs(e.clientX-(r.left+r.width/2))<80 && Math.abs(e.clientY-(r.top+r.height/2))<80){
-    moveNO();
-  }
+  moveNO();
 });
 
-// Evade touch for mobile
 document.addEventListener("touchstart", ()=>{
   if(evadeMode) moveNO();
 });
