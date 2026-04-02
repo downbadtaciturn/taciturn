@@ -19,10 +19,10 @@
   .page { display: none; opacity: 0; transition: opacity 0.5s ease; }
   .active { display: block; opacity: 1; }
 
+  /* Fixed card container */
   .card-wrapper {
-    width: 90%;
-    max-width: 400px;
-    height: 400px; /* fixed height for all pages */
+    width: 400px;
+    height: 400px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -37,16 +37,17 @@
     color: white;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* vertical center */
-    align-items: center;     /* horizontal center */
+    justify-content: center;
+    align-items: center;
     text-align: center;
     padding: 20px;
     box-sizing: border-box;
     position: relative;
+    overflow: hidden; /* prevent card from stretching with long text */
   }
 
-  h1 { margin-bottom: 10px; font-size: clamp(18px,4vw,28px); }
-  p { margin-bottom: 20px; line-height: 1.5; font-size: clamp(14px,3.5vw,18px); overflow-wrap: break-word; }
+  h1 { margin-bottom: 10px; font-size: 22px; word-wrap: break-word; overflow-wrap: break-word; }
+  p { margin-bottom: 20px; line-height: 1.5; font-size: 16px; word-wrap: break-word; overflow-wrap: break-word; }
 
   .button-container {
     position: relative;
@@ -87,7 +88,9 @@
   button:active { transform: scale(0.9); }
 
   @media (max-width: 500px) {
-    .card-wrapper { height: 360px; }
+    .card-wrapper { width: 360px; height: 360px; }
+    h1 { font-size: 20px; }
+    p { font-size: 14px; }
   }
 </style>
 </head>
@@ -174,7 +177,7 @@ noBtn.addEventListener("click", function(){
     noBtn.innerText = noMessages[noIndex];
     noIndex++;
     if(noIndex === noMessages.length){
-      noBtn.style.position = "fixed";
+      noBtn.style.position = "absolute"; // fixed inside card
       noBtn.style.zIndex = 1000;
       evadeMode = true;
     }
