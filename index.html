@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,7 +56,7 @@ button:active { transform: scale(0.9); }
 <!-- Pages -->
 <div id="page1" class="page active">
   <div class="card-wrapper"><div class="card">
-    <h1>Hey Wedad </h1>
+    <h1>Hey Wedad 😊</h1>
     <p>Thanks for taking a moment to open this.</p>
     <div class="button-container"><button class="yes-btn" onclick="nextPage(2)">Next</button></div>
   </div></div>
@@ -124,7 +123,7 @@ noBtn.addEventListener("click", e=>{
   e.stopPropagation();
 });
 
-// MOVE NO FREELY
+// MOVE NO FREELY (SAFE: never overlaps YES)
 function moveNO(){
   const yesRect = yesBtn.getBoundingClientRect();
   const cardRect = card.getBoundingClientRect();
@@ -135,23 +134,16 @@ function moveNO(){
 
   const noW = noBtn.offsetWidth;
   const noH = noBtn.offsetHeight;
-  const buffer = 10;
+  const buffer = 20; // safe space around YES
 
-  const zones = [
-    {xMin:0, xMax:card.offsetWidth-noW, yMin:0, yMax:yesY-noH-buffer},
-    {xMin:0, xMax:card.offsetWidth-noW, yMin:yesY+yesH+buffer, yMax:card.offsetHeight-noH},
-    {xMin:0, xMax:yesX-noW-buffer, yMin:yesY, yMax:yesY+yesH},
-    {xMin:yesX+yesW+buffer, xMax:card.offsetWidth-noW, yMin:yesY, yMax:yesY+yesH}
-  ];
-
-  const validZones = zones.filter(z => z.xMax>z.xMin && z.yMax>z.yMin);
-  let x=0, y=0;
-
-  if(validZones.length>0){
-    const z = validZones[Math.floor(Math.random()*validZones.length)];
-    x = z.xMin + Math.random()*(z.xMax-z.xMin);
-    y = z.yMin + Math.random()*(z.yMax-z.yMin);
-  }
+  let x, y;
+  let attempts = 0;
+  do {
+    x = Math.random() * (card.offsetWidth - noW);
+    y = Math.random() * (card.offsetHeight - noH);
+    attempts++;
+    if(attempts>300) break; // fallback
+  } while(!(x + noW + buffer < yesX || x - buffer > yesX + yesW || y + noH + buffer < yesY || y - buffer > yesY + yesH));
 
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
@@ -165,22 +157,16 @@ let isDraggingNo = false;
 
 if(isMobile){
   noBtn.addEventListener("touchstart", e=>{
-    if(evadeMode){
-      isDraggingNo = true;
-      moveNO();
-    }
+    if(evadeMode){ isDraggingNo=true; moveNO(); }
   });
   noBtn.addEventListener("touchmove", e=>{
-    if(evadeMode && isDraggingNo){
-      moveNO();
-    }
+    if(evadeMode && isDraggingNo){ moveNO(); }
   });
   noBtn.addEventListener("touchend", e=>{
     isDraggingNo=false;
   });
-  // Prevent accidental click on mobile after drag
   noBtn.addEventListener("click", e=>{
-    if(isDraggingNo) e.preventDefault();
+    if(isDraggingNo) e.preventDefault(); // prevent accidental click
   });
 }else{
   document.addEventListener("mousemove", e=>{
