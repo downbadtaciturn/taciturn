@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Hi 😊</title>
+  <title>A Little Curiosity 😄</title>
   <style>
     body {
       margin: 0;
@@ -14,19 +14,11 @@
       overflow: hidden;
     }
 
-    .page {
-      display: none;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-    }
-
-    .active {
-      display: block;
-      opacity: 1;
-    }
+    .page { display: none; opacity: 0; transition: opacity 0.5s ease; }
+    .active { display: block; opacity: 1; }
 
     .card {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255,255,255,0.15);
       padding: 40px;
       border-radius: 20px;
       backdrop-filter: blur(10px);
@@ -34,74 +26,66 @@
       color: white;
       width: 320px;
       animation: fadeIn 1s ease;
+      position: relative;
     }
 
-    h1 {
-      margin-bottom: 10px;
-    }
+    h1 { margin-bottom: 10px; }
+    p { margin-bottom: 20px; line-height: 1.5; }
 
-    p {
-      margin-bottom: 20px;
-      line-height: 1.5;
+    .button-container {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      height: 60px;
     }
 
     button {
       padding: 12px 20px;
-      margin: 10px;
       border: none;
       border-radius: 25px;
       font-size: 16px;
       cursor: pointer;
       transition: all 0.3s ease;
+      white-space: nowrap;
     }
 
     .yes-btn {
       background: #ff4d88;
       color: white;
-      box-shadow: 0 4px 15px rgba(255, 77, 136, 0.5);
+      box-shadow: 0 4px 15px rgba(255,77,136,0.5);
       animation: pulse 2s infinite;
     }
 
     .yes-btn:hover {
       transform: scale(1.1);
-      box-shadow: 0 6px 25px rgba(255, 77, 136, 0.8);
+      box-shadow: 0 6px 25px rgba(255,77,136,0.8);
     }
 
     .no-btn {
       background: rgba(255,255,255,0.2);
       color: white;
-      position: relative; /* initial position */
+      position: relative;
     }
 
-    .no-btn:hover {
-      transform: scale(0.95);
-    }
+    .no-btn:hover { transform: scale(0.95); }
+    button:active { transform: scale(0.9); }
 
-    button:active {
-      transform: scale(0.9);
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.08); }
-      100% { transform: scale(1); }
-    }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes pulse { 0%{transform:scale(1);} 50%{transform:scale(1.08);} 100%{transform:scale(1);} }
   </style>
 </head>
-
 <body>
 
 <!-- PAGE 1 -->
 <div id="page1" class="page active">
   <div class="card">
-    <h1>Hi… 😊</h1>
+    <h1>Hey Wedad 😄</h1>
     <p>Thanks for taking a moment to open this.</p>
-    <button class="yes-btn" onclick="nextPage(2)">Next</button>
+    <div class="button-container">
+      <button class="yes-btn" onclick="nextPage(2)">Next</button>
+    </div>
   </div>
 </div>
 
@@ -109,11 +93,10 @@
 <div id="page2" class="page">
   <div class="card">
     <h1>Just something small...</h1>
-    <p>
-      We may not be that close yet,<br>
-      but I’d really like to change that… slowly.
-    </p>
-    <button class="yes-btn" onclick="nextPage(3)">Continue</button>
+    <p>It might feel sudden, but I’m really curious about you… just a little 😊</p>
+    <div class="button-container">
+      <button class="yes-btn" onclick="nextPage(3)">Continue</button>
+    </div>
   </div>
 </div>
 
@@ -122,28 +105,45 @@
   <div class="card">
     <h1>Final Question 😳</h1>
     <p>Would it be okay if I get to know you?</p>
-
-    <button class="yes-btn" onclick="yesClick()">YES 💖</button>
-    <button id="noBtn" class="no-btn" onclick="noClick()">No 😢</button>
+    <div class="button-container" id="btnContainer">
+      <button class="yes-btn" onclick="yesClick()">YES 💖</button>
+      <button id="noBtn" class="no-btn" onclick="noClick()">No 😢</button>
+    </div>
   </div>
 </div>
 
 <script>
-function nextPage(pageNumber) {
-  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-  document.getElementById("page" + pageNumber).classList.add("active");
+function nextPage(pageNumber){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById("page"+pageNumber).classList.add("active");
 }
 
-function yesClick() {
+// YES button click → fade-in GIF celebration
+function yesClick(){
   document.body.innerHTML = `
-    <div class="card">
-      <h1>Yay 😭💖</h1>
-      <p>That honestly means a lot.<br>Looking forward to knowing you 😊</p>
+    <div style="
+      width:100vw;
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background: linear-gradient(135deg, #ff9a9e, #a18cd1);
+      backdrop-filter: blur(10px);
+    ">
+      <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTlya3hwanU0ZHY5ZHlqeDh3YnljNGt1a2VtendoOXZyZno0OXQ1NCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/akiHW8qDydkm4/giphy.gif"
+           alt="Celebration GIF"
+           style="width:80%; max-width:400px; border-radius:20px; box-shadow:0 8px 20px rgba(0,0,0,0.3); opacity:0; animation:fadeInGIF 1s forwards;">
     </div>
+    <style>
+      @keyframes fadeInGIF {
+        from { opacity:0; transform: scale(0.8); }
+        to { opacity:1; transform: scale(1); }
+      }
+    </style>
   `;
 }
 
-// NO BUTTON LOGIC
+// NO button logic
 let noMessages = [
   "Wait… sure ka? 😅",
   "Not even a little curious? 😄",
@@ -153,66 +153,49 @@ let noMessages = [
   "Let’s find out? 😊",
   "Last chance 😏"
 ];
-
 let noIndex = 0;
 let evadeMode = false;
 
-function noClick() {
+function noClick(){
   const btn = document.getElementById("noBtn");
-
-  if (noIndex < noMessages.length) {
+  if(noIndex < noMessages.length){
     btn.innerText = noMessages[noIndex];
     noIndex++;
-
-    if (noIndex === noMessages.length) {
+    if(noIndex === noMessages.length){
+      document.body.appendChild(btn);
+      btn.style.position = 'fixed';
+      btn.style.zIndex = 1000;
       evadeMode = true;
+      moveButton();
     }
   }
 }
 
-// PC hover evade
-document.addEventListener("mousemove", function(e) {
-  if (!evadeMode) return;
+function moveButton(){
+  const btn = document.getElementById("noBtn");
+  const minPercent = 5;
+  const maxPercent = 95;
+  const xPercent = Math.random()*(maxPercent - minPercent) + minPercent;
+  const yPercent = Math.random()*(maxPercent - minPercent) + minPercent;
+  btn.style.left = xPercent + "%";
+  btn.style.top = yPercent + "%";
+  btn.style.transform = "translate(-50%, -50%)";
+}
 
+// Evade on PC hover
+document.addEventListener("mousemove", e=>{
+  if(!evadeMode) return;
   const btn = document.getElementById("noBtn");
   const rect = btn.getBoundingClientRect();
-
-  const distanceX = Math.abs(e.clientX - (rect.left + rect.width / 2));
-  const distanceY = Math.abs(e.clientY - (rect.top + rect.height / 2));
-
-  if (distanceX < 100 && distanceY < 100) {
-    moveButton();
-  }
+  const dx = Math.abs(e.clientX - (rect.left + rect.width/2));
+  const dy = Math.abs(e.clientY - (rect.top + rect.height/2));
+  if(dx<100 && dy<100) moveButton();
 });
 
-// Mobile touch evade
-document.addEventListener("touchstart", function() {
-  if (evadeMode) moveButton();
+// Evade on mobile touch
+document.addEventListener("touchstart", ()=>{
+  if(evadeMode) moveButton();
 });
-
-function moveButton() {
-  const btn = document.getElementById("noBtn");
-  btn.style.position = "fixed"; // stays inside viewport
-
-  const margin = 10;
-  const vw = document.documentElement.clientWidth;
-  const vh = document.documentElement.clientHeight;
-
-  const btnRect = btn.getBoundingClientRect();
-  const btnWidth = btnRect.width;
-  const btnHeight = btnRect.height;
-
-  // calculate random position
-  let x = Math.random() * (vw - btnWidth - margin * 2) + margin;
-  let y = Math.random() * (vh - btnHeight - margin * 2) + margin;
-
-  // clamp to viewport edges
-  x = Math.max(margin, Math.min(x, vw - btnWidth - margin));
-  y = Math.max(margin, Math.min(y, vh - btnHeight - margin));
-
-  btn.style.left = x + "px";
-  btn.style.top = y + "px";
-}
 </script>
 
 </body>
