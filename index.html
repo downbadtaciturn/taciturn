@@ -19,7 +19,6 @@
   .page { display: none; opacity: 0; transition: opacity 0.5s ease; }
   .active { display: block; opacity: 1; }
 
-  /* Fixed card container */
   .card-wrapper {
     width: 400px;
     height: 400px;
@@ -43,7 +42,7 @@
     padding: 20px;
     box-sizing: border-box;
     position: relative;
-    overflow: hidden; /* prevent card from stretching with long text */
+    overflow: hidden;
   }
 
   h1 { margin-bottom: 10px; font-size: 22px; word-wrap: break-word; overflow-wrap: break-word; }
@@ -177,7 +176,7 @@ noBtn.addEventListener("click", function(){
     noBtn.innerText = noMessages[noIndex];
     noIndex++;
     if(noIndex === noMessages.length){
-      noBtn.style.position = "absolute"; // fixed inside card
+      noBtn.style.position = "absolute";
       noBtn.style.zIndex = 1000;
       evadeMode = true;
     }
@@ -199,25 +198,27 @@ noBtn.addEventListener("click", function(){
 function moveNO(){
   const cardRect = card.getBoundingClientRect();
   const yesRect = yesBtn.getBoundingClientRect();
+  const noWidth = noBtn.offsetWidth;
+  const noHeight = noBtn.offsetHeight;
   let x, y, attempts = 0;
-  const buffer = 20;
+  const buffer = 10;
 
   do {
-    x = Math.random()*80 + 10;
-    y = Math.random()*50 + 25;
+    x = Math.random() * (cardRect.width - noWidth);
+    y = Math.random() * (cardRect.height - noHeight);
     attempts++;
-    if(attempts>50) break;
+    if(attempts > 100) break;
   } while(
-    (x/100*cardRect.width + cardRect.left < yesRect.right + buffer &&
-     x/100*cardRect.width + cardRect.left + noBtn.offsetWidth > yesRect.left - buffer) &&
-    (y/100*cardRect.height + cardRect.top < yesRect.bottom + buffer &&
-     y/100*cardRect.height + cardRect.top + noBtn.offsetHeight > yesRect.top - buffer)
+    x + cardRect.left < yesRect.right + buffer &&
+    x + cardRect.left + noWidth > yesRect.left - buffer &&
+    y + cardRect.top < yesRect.bottom + buffer &&
+    y + cardRect.top + noHeight > yesRect.top - buffer
   );
 
-  noBtn.style.transition = "left 0.3s ease, top 0.3s ease";
-  noBtn.style.left = x + "%";
-  noBtn.style.top = y + "%";
-  noBtn.style.transform = "translate(-50%, -50%)";
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+  noBtn.style.transform = "none";
+  noBtn.style.position = "absolute";
 }
 
 // Evade hover (PC)
