@@ -1,149 +1,150 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Curiosity Wins 😏</title>
-<style>
-body {
-  margin: 0;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, #1e1e1e, #2c2c2c);
-  font-family: 'Segoe UI', sans-serif;
-  color: #fff;
-  overflow: hidden;
-}
+  <title>Hi 😊</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #a18cd1);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
 
-.container {
-  text-align: center;
-  padding: 20px;
-  width: 450px;
-  max-width: 90vw;
-  min-height: 350px;
-  border-radius: 20px;
-  background: rgba(0,0,0,0.4);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  box-sizing: border-box;
-}
+    .page {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
 
-h1, h2, p { margin: 6px 0; }
+    .active {
+      display: block;
+      opacity: 1;
+    }
 
-/* Buttons in horizontal row */
-.buttons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  margin-top: 20px;
-}
+    .card {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 40px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      text-align: center;
+      color: white;
+      width: 320px;
+      animation: fadeIn 1s ease;
+    }
 
-/* Sure button */
-#yes {
-  width: 130px;
-  height: 45px;
-  background: #ff4d6d;
-  color: white;
-  font-weight: bold;
-  font-family: 'Segoe UI', sans-serif;
-  border-radius: 25px;
-  cursor: pointer;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.25s ease, background 0.25s ease;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+    h1 {
+      margin-bottom: 10px;
+    }
 
-#yes:hover { transform: scale(1.1); }
+    p {
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
 
-/* Not sure button */
-#no {
-  width: 200px;
-  height: 45px;
-  background: #555;
-  color: white;
-  font-weight: bold;
-  font-family: 'Segoe UI', sans-serif;
-  border-radius: 25px;
-  cursor: pointer;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 10px;
-  text-align: center;
-  white-space: normal;
-  word-break: break-word;
-  transition: transform 0.25s ease, background 0.25s ease;
-}
+    button {
+      padding: 12px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
 
-#no:hover { transform: scale(1.05); background: #666; }
+    .yes-btn {
+      background: #ff4d88;
+      color: white;
+      box-shadow: 0 4px 15px rgba(255, 77, 136, 0.5);
+      animation: pulse 2s infinite;
+    }
 
-/* Click animation for Not sure */
-@keyframes clickPulse {
-  0% { transform: scale(1); }
-  30% { transform: scale(1.1); }
-  60% { transform: scale(0.95); }
-  100% { transform: scale(1); }
-}
+    .yes-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 25px rgba(255, 77, 136, 0.8);
+    }
 
-.click-animate { animation: clickPulse 0.35s ease; }
+    .no-btn {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      position: relative; /* initial position */
+    }
 
-/* Mobile adjustments */
-@media (max-width: 600px) {
-  #yes { width: 120px; height: 40px; font-size: 14px; }
-  #no { width: 160px; height: 40px; font-size: 14px; }
-  h1 { font-size: 1.8rem; }
-  h2 { font-size: 1.4rem; }
-  p { font-size: 0.95rem; } /* smaller to prevent emoji overflow */
-}
+    .no-btn:hover {
+      transform: scale(0.95);
+    }
 
-/* Meme text style */
-.meme-container {
-  position: relative;
-  display: inline-block;
-  max-width: 90%;
-}
+    button:active {
+      transform: scale(0.9);
+    }
 
-.meme-text {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: white;
-  text-shadow: 2px 2px 4px #000;
-}
-</style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="container" id="main">
-  <h1>Hey Wedad 😊</h1>
-  <p>I just wanted to make you smile today 😄</p>
-  <p>You seem really fun and amazing 💖</p>
-  <p>I’d love the chance to get to know you better 😌</p>
-  <h2>So... Can I?</h2>
+<!-- PAGE 1 -->
+<div id="page1" class="page active">
+  <div class="card">
+    <h1>Hi… 😊</h1>
+    <p>Thanks for taking a moment to open this.</p>
+    <button class="yes-btn" onclick="nextPage(2)">Next</button>
+  </div>
+</div>
 
-  <div class="buttons">
-    <button id="yes" onclick="sayYes()">Sure 😊</button>
-    <button id="no" onclick="moveNo()">Not sure 😅</button>
+<!-- PAGE 2 -->
+<div id="page2" class="page">
+  <div class="card">
+    <h1>Just something small...</h1>
+    <p>
+      We may not be that close yet,<br>
+      but I’d really like to change that… slowly.
+    </p>
+    <button class="yes-btn" onclick="nextPage(3)">Continue</button>
+  </div>
+</div>
+
+<!-- PAGE 3 -->
+<div id="page3" class="page">
+  <div class="card">
+    <h1>Final Question 😳</h1>
+    <p>Would it be okay if I get to know you?</p>
+
+    <button class="yes-btn" onclick="yesClick()">YES 💖</button>
+    <button id="noBtn" class="no-btn" onclick="noClick()">No 😢</button>
   </div>
 </div>
 
 <script>
-let step = 0;
-let locked = false;
-const texts = [
+function nextPage(pageNumber) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById("page" + pageNumber).classList.add("active");
+}
+
+function yesClick() {
+  document.body.innerHTML = `
+    <div class="card">
+      <h1>Yay 😭💖</h1>
+      <p>That honestly means a lot.<br>Looking forward to knowing you 😊</p>
+    </div>
+  `;
+}
+
+// NO BUTTON LOGIC
+let noMessages = [
   "Wait… sure ka? 😅",
   "Not even a little curious? 😄",
   "Like 100% sure? 🥺",
@@ -153,54 +154,64 @@ const texts = [
   "Last chance 😏"
 ];
 
-const btn = document.getElementById('no');
+let noIndex = 0;
+let evadeMode = false;
 
-function moveNo() {
-  if (locked) return;
-  if (step < texts.length) {
-    btn.innerText = texts[step];
-    btn.classList.remove('click-animate');
-    void btn.offsetWidth;
-    btn.classList.add('click-animate');
-  }
+function noClick() {
+  const btn = document.getElementById("noBtn");
 
-  if (step === texts.length - 1) {
-    locked = true;
-    moveButton();
+  if (noIndex < noMessages.length) {
+    btn.innerText = noMessages[noIndex];
+    noIndex++;
 
-    if (!('ontouchstart' in window)) {
-      btn.onmouseover = moveButton;
-    } else {
-      btn.ontouchstart = (e) => { e.preventDefault(); moveButton(); };
+    if (noIndex === noMessages.length) {
+      evadeMode = true;
     }
   }
-  step++;
 }
+
+// PC hover evade
+document.addEventListener("mousemove", function(e) {
+  if (!evadeMode) return;
+
+  const btn = document.getElementById("noBtn");
+  const rect = btn.getBoundingClientRect();
+
+  const distanceX = Math.abs(e.clientX - (rect.left + rect.width / 2));
+  const distanceY = Math.abs(e.clientY - (rect.top + rect.height / 2));
+
+  if (distanceX < 100 && distanceY < 100) {
+    moveButton();
+  }
+});
+
+// Mobile touch evade
+document.addEventListener("touchstart", function() {
+  if (evadeMode) moveButton();
+});
 
 function moveButton() {
-  const padding = 10;
-  const btnWidth = btn.offsetWidth;
-  const btnHeight = btn.offsetHeight;
-  const screenWidth = window.innerWidth;
-  const screenHeight = window.innerHeight;
-  const maxX = screenWidth - btnWidth - padding;
-  const maxY = screenHeight - btnHeight - padding;
-  const x = Math.random() * maxX;
-  const y = Math.random() * maxY;
-  btn.style.position = 'fixed';
-  btn.style.left = x + 'px';
-  btn.style.top = y + 'px';
-}
+  const btn = document.getElementById("noBtn");
+  btn.style.position = "fixed"; // stays inside viewport
 
-function sayYes() {
-  const gifURL = "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTlya3hwanU0ZHY5ZHlqeDh3YnljNGt1a2VtendoOXZyZno0OXQ1NCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/akiHW8qDydkm4/giphy.gif";
-  
-  document.getElementById('main').innerHTML = `
-    <div class="meme-container">
-      <div class="meme-text">ME:</div>
-      <img src="${gifURL}" style="width:100%; border-radius:15px;">
-    </div>
-  `;
+  const margin = 10;
+  const vw = document.documentElement.clientWidth;
+  const vh = document.documentElement.clientHeight;
+
+  const btnRect = btn.getBoundingClientRect();
+  const btnWidth = btnRect.width;
+  const btnHeight = btnRect.height;
+
+  // calculate random position
+  let x = Math.random() * (vw - btnWidth - margin * 2) + margin;
+  let y = Math.random() * (vh - btnHeight - margin * 2) + margin;
+
+  // clamp to viewport edges
+  x = Math.max(margin, Math.min(x, vw - btnWidth - margin));
+  y = Math.max(margin, Math.min(y, vh - btnHeight - margin));
+
+  btn.style.left = x + "px";
+  btn.style.top = y + "px";
 }
 </script>
 
