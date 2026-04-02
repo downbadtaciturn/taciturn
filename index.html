@@ -56,7 +56,7 @@ button:active { transform: scale(0.9); }
 <!-- Pages -->
 <div id="page1" class="page active">
   <div class="card-wrapper"><div class="card">
-    <h1>Hey Weda 😊</h1>
+    <h1>Hey Wedad 😊</h1>
     <p>Thanks for taking a moment to open this.</p>
     <div class="button-container"><button class="yes-btn" onclick="nextPage(2)">Next</button></div>
   </div></div>
@@ -125,25 +125,37 @@ noBtn.addEventListener("click", e=>{
 
 // MOVE NO FREELY
 function moveNO(){
-  noBtn.style.pointerEvents="none";
-  const yesRect=yesBtn.getBoundingClientRect();
-  const cardRect=card.getBoundingClientRect();
-  const yesX=yesRect.left-cardRect.left, yesY=yesRect.top-cardRect.top, yesW=yesRect.width, yesH=yesRect.height;
-  const noW=noBtn.offsetWidth, noH=noBtn.offsetHeight, buffer=10;
-  const zones=[
-    {xMin:0,xMax:card.offsetWidth-noW,yMin:0,yMax:yesY-noH-buffer},
-    {xMin:0,xMax:card.offsetWidth-noW,yMin:yesY+yesH+buffer,yMax:card.offsetHeight-noH},
-    {xMin:0,xMax:yesX-noW-buffer,yMin:yesY,yMax:yesY+yesH},
-    {xMin:yesX+yesW+buffer,xMax:card.offsetWidth-noW,yMin:yesY,yMax:yesY+yesH}
+  const yesRect = yesBtn.getBoundingClientRect();
+  const cardRect = card.getBoundingClientRect();
+  const yesX = yesRect.left - cardRect.left;
+  const yesY = yesRect.top - cardRect.top;
+  const yesW = yesRect.width;
+  const yesH = yesRect.height;
+
+  const noW = noBtn.offsetWidth;
+  const noH = noBtn.offsetHeight;
+  const buffer = 10;
+
+  const zones = [
+    {xMin:0, xMax:card.offsetWidth-noW, yMin:0, yMax:yesY-noH-buffer},
+    {xMin:0, xMax:card.offsetWidth-noW, yMin:yesY+yesH+buffer, yMax:card.offsetHeight-noH},
+    {xMin:0, xMax:yesX-noW-buffer, yMin:yesY, yMax:yesY+yesH},
+    {xMin:yesX+yesW+buffer, xMax:card.offsetWidth-noW, yMin:yesY, yMax:yesY+yesH}
   ];
-  const validZones=zones.filter(z=>z.xMax>z.xMin && z.yMax>z.yMin);
-  let x=0,y=0;
+
+  const validZones = zones.filter(z => z.xMax>z.xMin && z.yMax>z.yMin);
+  let x=0, y=0;
+
   if(validZones.length>0){
-    const z=validZones[Math.floor(Math.random()*validZones.length)];
-    x=z.xMin+Math.random()*(z.xMax-z.xMin); y=z.yMin+Math.random()*(z.yMax-z.yMin);
+    const z = validZones[Math.floor(Math.random()*validZones.length)];
+    x = z.xMin + Math.random()*(z.xMax-z.xMin);
+    y = z.yMin + Math.random()*(z.yMax-z.yMin);
   }
-  noBtn.style.left=x+"px"; noBtn.style.top=y+"px"; noBtn.style.position="absolute"; noBtn.style.transform="none";
-  setTimeout(()=>{noBtn.style.pointerEvents="auto";},50);
+
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+  noBtn.style.position = "absolute";
+  noBtn.style.transform = "none";
 }
 
 // DETECT MOBILE
