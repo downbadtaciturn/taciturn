@@ -56,7 +56,7 @@ button:active { transform: scale(0.9); }
 <!-- Pages -->
 <div id="page1" class="page active">
   <div class="card-wrapper"><div class="card">
-    <h1>Hey Wedad 😊</h1>
+    <h1>Hey Wedad </h1>
     <p>Thanks for taking a moment to open this.</p>
     <div class="button-container"><button class="yes-btn" onclick="nextPage(2)">Next</button></div>
   </div></div>
@@ -158,18 +158,28 @@ function moveNO(){
   noBtn.style.transform = "none";
 }
 
-// DETECT MOBILE
+// MOBILE-SAFE LOGIC
 const isMobile = 'ontouchstart' in window;
+let isDraggingNo = false;
 
-// EVADING NO
 if(isMobile){
-  card.addEventListener("touchstart", e=>{
-    e.preventDefault();
-    if(evadeMode) moveNO();
+  noBtn.addEventListener("touchstart", e=>{
+    if(evadeMode){
+      isDraggingNo = true;
+      moveNO();
+    }
   });
-  card.addEventListener("touchmove", e=>{
-    e.preventDefault();
-    if(evadeMode) moveNO();
+  noBtn.addEventListener("touchmove", e=>{
+    if(evadeMode && isDraggingNo){
+      moveNO();
+    }
+  });
+  noBtn.addEventListener("touchend", e=>{
+    isDraggingNo=false;
+  });
+  // Prevent accidental click on mobile after drag
+  noBtn.addEventListener("click", e=>{
+    if(isDraggingNo) e.preventDefault();
   });
 }else{
   document.addEventListener("mousemove", e=>{
