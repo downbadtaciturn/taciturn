@@ -26,26 +26,26 @@ body {
   color: white;
   width: 90%;
   max-width: 400px;
-  height: 350px;       /* fixed card height PC */
+  height: 350px;          /* fixed height PC */
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   padding: 20px;
   position: relative;
-  animation: fadeIn 1s ease;
   overflow: hidden;
+  animation: fadeIn 1s ease;
 }
 
 .text-container {
-  height: 180px;        /* fixed height PC */
-  flex-shrink: 0;       /* prevent shrinking */
-  overflow: hidden;
+  height: 180px;           /* fixed height PC */
+  flex-shrink: 0;          /* prevent shrinking */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
+  overflow: hidden;
 }
 
 .text-container h1, .text-container p {
@@ -55,11 +55,11 @@ body {
 }
 
 .button-container {
+  margin-top: auto;        /* buttons always at bottom of card */
   display: flex;
   justify-content: center;
   gap: 10px;
   width: 100%;
-  margin-top: auto; /* buttons stay at bottom */
 }
 
 button {
@@ -101,8 +101,7 @@ button:active { transform: scale(0.95); }
 
 @media (max-width: 500px) {
   .card { height: 330px; padding: 15px; }
-  .text-container { height: 160px; flex-shrink: 0; }
-  .button-container { margin-top: auto; }
+  .text-container { height: 160px; }
 }
 </style>
 </head>
@@ -126,9 +125,7 @@ button:active { transform: scale(0.95); }
   <div class="card">
     <div class="text-container">
       <h1>Just something small…</h1>
-      <p>It might feel sudden, 
-        but I’m really curious 
-        about you… just a little 😊</p>
+      <p>It might feel sudden, but I’m really curious about you… just a little 😊</p>
     </div>
     <div class="button-container">
       <button class="yes-btn" onclick="nextPage(3)">Continue</button>
