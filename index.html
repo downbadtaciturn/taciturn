@@ -7,129 +7,41 @@
 
 <style>
 * { box-sizing: border-box; }
+html, body { margin:0; padding:0; height:100%; font-family:'Segoe UI', sans-serif; background: linear-gradient(135deg,#ff9a9e,#a18cd1); }
+body { min-height:100dvh; display:flex; justify-content:center; align-items:center; }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #ff9a9e, #a18cd1);
-}
+.page { display:none; width:100%; height:100dvh; display:flex; justify-content:center; align-items:center; }
+.page.active { display:flex; }
 
-/* FIXED CENTERING (REAL FIX) */
-body {
-  min-height: 100dvh;
-}
-
-/* PAGES = FULL SCREEN CENTER */
-.page {
-  display: none;
-  width: 100%;
-  height: 100dvh;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.page.active {
-  display: flex;
-}
-
-/* FIXED CONTAINER */
 .card {
-  width: 90%;
-  max-width: 400px;
-
-  height: 350px;
-  min-height: 350px;
-  max-height: 350px;
-
-  background: rgba(255,255,255,0.15);
-  border-radius: 20px;
-  backdrop-filter: blur(10px);
-  color: white;
-
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-
-  overflow: hidden;
+  width:90%; max-width:400px; height:350px; min-height:350px; max-height:350px;
+  background: rgba(255,255,255,0.15); border-radius:20px; backdrop-filter: blur(10px); color:white;
+  display:flex; flex-direction:column; padding:20px; overflow:hidden;
 }
 
-/* FIXED TEXT AREA */
 .text-container {
-  height: 180px;
-  min-height: 180px;
-  max-height: 180px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  text-align: center;
-  flex-shrink: 0;
+  height:180px; min-height:180px; max-height:180px;
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  text-align:center; flex-shrink:0; overflow:hidden;
 }
 
-.text-container h1,
-.text-container p {
-  margin: 5px 0;
-  font-size: clamp(16px, 4vw, 26px);
-}
+.text-container h1, .text-container p { margin:5px 0; font-size:clamp(16px,4vw,26px); }
 
-/* BUTTONS */
-.button-container {
-  margin-top: auto;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-
-button {
-  height: 50px;
-  min-width: 80px;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.yes-btn {
-  background: #ff4d88;
-  color: white;
-}
-
-.no-btn {
-  background: rgba(255,255,255,0.2);
-  color: white;
-  max-width: 120px;
-  text-align: center;
-}
-
+.button-container { margin-top:auto; display:flex; justify-content:center; gap:10px; }
+button { height:50px; min-width:80px; border:none; border-radius:25px; cursor:pointer; transition:all 0.3s ease; }
+.yes-btn { background:#ff4d88; color:white; }
+.no-btn { background: rgba(255,255,255,0.2); color:white; max-width:120px; text-align:center; }
 button:hover { transform: scale(1.05); }
 button:active { transform: scale(0.95); }
 
-/* MOBILE FIX */
-@media (max-width: 500px) {
-  .card {
-    height: 330px;
-    min-height: 330px;
-    max-height: 330px;
-  }
-
-  .text-container {
-    height: 160px;
-    min-height: 160px;
-    max-height: 160px;
-  }
+@media (max-width:500px){
+  .card { height:330px; min-height:330px; max-height:330px; }
+  .text-container { height:160px; min-height:160px; max-height:160px; }
 }
 </style>
 </head>
-
 <body>
 
-<!-- PAGE 1 -->
 <div id="page1" class="page active">
   <div class="card">
     <div class="text-container">
@@ -142,7 +54,6 @@ button:active { transform: scale(0.95); }
   </div>
 </div>
 
-<!-- PAGE 2 -->
 <div id="page2" class="page">
   <div class="card">
     <div class="text-container">
@@ -155,7 +66,6 @@ button:active { transform: scale(0.95); }
   </div>
 </div>
 
-<!-- PAGE 3 -->
 <div id="page3" class="page">
   <div class="card">
     <div class="text-container">
@@ -200,23 +110,28 @@ function noClick(){
   const no = document.getElementById("noBtn");
   const yes = document.getElementById("yesBtn");
 
+  // 🔒 TEMP LOCK YES
+  yes.disabled = true;
+
   let cardHeight = document.querySelector("#page3 .card").offsetHeight;
 
+  // YES grow (balanced)
   let y = parseFloat(getComputedStyle(yes).height);
-  yes.style.height = Math.min(cardHeight * 0.6, y + 20) + "px";
-  yes.style.width = Math.min(220, yes.offsetWidth + 15) + "px";
+  yes.style.height = Math.min(cardHeight*0.6, y+20)+"px";
+  yes.style.width = Math.min(220, yes.offsetWidth+15)+"px";
 
+  // NO shrink
   let n = parseFloat(getComputedStyle(no).height);
-  let newN = Math.max(12, n - 8);
-  no.style.height = newN + "px";
+  let newN = Math.max(12, n-8);
+  no.style.height = newN+"px";
 
   let font = Math.max(8, 16*(newN/50));
-  no.style.fontSize = font + "px";
+  no.style.fontSize = font+"px";
 
+  // NO text
   if(i < msgs.length){
     no.innerText = msgs[i];
     i++;
-
     if(i === msgs.length){
       no.style.position = "fixed";
       evade = true;
@@ -224,6 +139,9 @@ function noClick(){
       no.style.transform = "scale(0.5)";
     }
   }
+
+  // 🔓 Unlock YES after 200ms
+  setTimeout(()=>{ yes.disabled = false; }, 200);
 }
 
 function move(){
