@@ -63,7 +63,14 @@ button {
   border-radius: 25px;
   font-size: 16px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* Push-down effect on click */
+button:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 .yes-btn {
@@ -128,7 +135,7 @@ so I thought I’d just try this simple way of saying hi 😊</p>
 </div>
 
 <script>
-// PAGE NAV
+// PAGE NAVIGATION
 function nextPage(n){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById("page"+n).classList.add("active");
@@ -152,7 +159,7 @@ let noMessages = [
 let noIndex = 0;
 let lastChanceMoving = false;
 
-// Random position inside card
+// RANDOM POSITION
 function randomPos() {
   const cardRect = card.getBoundingClientRect();
   const btnRect = noBtn.getBoundingClientRect();
@@ -162,7 +169,7 @@ function randomPos() {
   };
 }
 
-// Move Last chance playfully
+// MOVE LAST CHANCE
 function moveLastChance() {
   if(!lastChanceMoving) return;
   const pos = randomPos();
@@ -202,7 +209,7 @@ function handleNo(e){
 noBtn.addEventListener("click", handleNo);
 noBtn.addEventListener("touchstart", handleNo);
 
-// Escape animation for last message
+// ESCAPE ANIMATION FOR LAST MESSAGE
 document.addEventListener("mousemove", e => {
   if(noIndex === 7){ // Last chance 😏
     const rect = noBtn.getBoundingClientRect();
@@ -218,7 +225,7 @@ document.addEventListener("mousemove", e => {
   }
 });
 
-// YES CLICK - BEAUTIFUL GIF + CONFETTI
+// YES CLICK - CONFETTI + GIF
 yesBtn.onclick = () => {
   document.body.innerHTML = `
   <div style="
@@ -264,7 +271,6 @@ yesBtn.onclick = () => {
   </style>
   `;
 
-  // CONFETTI
   const canvas = document.getElementById('confettiCanvas');
   const ctx = canvas.getContext('2d');
   canvas.width = canvas.offsetWidth;
