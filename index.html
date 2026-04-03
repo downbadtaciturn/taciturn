@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A Little Curiosity 😄</title>
-
 <style>
 body {
   margin: 0;
@@ -67,34 +66,19 @@ button {
   transition: all 0.3s ease;
 }
 
-/* YES BUTTON */
 .yes-btn {
   background: #ff4d88;
   color: white;
   box-shadow: 0 4px 15px rgba(255,77,136,0.5);
   z-index: 10;
-  transition: width 0.3s, height 0.3s;
 }
 
-/* SHAKE ANIMATION */
-@keyframes shake {
-  0% { transform: scale(1) translateX(0); }
-  25% { transform: scale(1.05) translateX(-2px); }
-  50% { transform: scale(1.05) translateX(2px); }
-  75% { transform: scale(1.05) translateX(-2px); }
-  100% { transform: scale(1) translateX(0); }
-}
-
-.yes-shake {
-  animation: shake 0.3s ease;
-}
-
-/* NO BUTTON */
 .no-btn {
   background: rgba(255,255,255,0.2);
   color: white;
   position: relative;
   z-index: 5;
+  transition: all 0.2s ease;
 }
 
 @media (max-width: 500px) {
@@ -102,7 +86,6 @@ button {
 }
 </style>
 </head>
-
 <body>
 
 <!-- PAGE 1 -->
@@ -121,10 +104,9 @@ button {
   <div class="card-wrapper">
     <div class="card">
       <h1>Just something small…</h1>
-      <p>This might feel a little random 😅
-but I’ve been a bit curious about you.
-
-I wasn’t sure if I should say anything,
+      <p>This might feel a little random 😅<br>
+but I’ve been a bit curious about you.<br><br>
+I wasn’t sure if I should say anything,<br>
 so I thought I’d just try this simple way of saying hi 😊</p>
       <button class="yes-btn" onclick="nextPage(3)">Continue</button>
     </div>
@@ -136,8 +118,7 @@ so I thought I’d just try this simple way of saying hi 😊</p>
   <div class="card-wrapper">
     <div class="card">
       <h1>Can I ask you something?</h1>
-      <p>Would it be okay
-if we get to know each other a little? 😊</p>
+      <p>Would it be okay if we get to know each other a little? 😊</p>
       <div class="button-container">
         <button id="yesBtn" class="yes-btn">Sure 💖</button>
         <button id="noBtn" class="no-btn">Not sure 😢</button>
@@ -158,13 +139,87 @@ const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
 const card = document.querySelector("#page3 .card");
 
-let yesClicked = false;
+let noMessages = [
+  "Wait… sure? 😅",
+  "Really no? 😄",
+  "100% sure? 🥺",
+  "One chance? 😆",
+  "I’m nice 😄",
+  "Let’s try? 😊",
+  "Last chance 😏"
+];
+
+let noIndex = 0;
+let lastChanceMoving = false;
+
+// Random position inside card
+function randomPos() {
+  const cardRect = card.getBoundingClientRect();
+  const btnRect = noBtn.getBoundingClientRect();
+  return {
+    x: Math.random() * (cardRect.width - btnRect.width),
+    y: Math.random() * (cardRect.height - btnRect.height)
+  };
+}
+
+// Move Last chance playfully
+function moveLastChance() {
+  if(!lastChanceMoving) return;
+  const pos = randomPos();
+  noBtn.style.left = pos.x + "px";
+  noBtn.style.top = pos.y + "px";
+  noBtn.style.position = "absolute";
+}
+
+// HANDLE NO CLICK
+function handleNo(e){
+  e.preventDefault();
+
+  if(noIndex < noMessages.length){
+    noBtn.innerText = noMessages[noIndex];
+    noIndex++;
+  }
+
+  // Shrink No button
+  let newH = Math.max(6, noBtn.offsetHeight - 8);
+  let newW = Math.max(20, noBtn.offsetWidth - 10);
+  noBtn.style.height = newH + "px";
+  noBtn.style.width = newW + "px";
+  noBtn.style.fontSize = Math.max(6, newH * 0.4) + "px";
+  noBtn.style.padding = Math.max(2, newH * 0.2) + "px";
+
+  // Grow Yes button
+  yesBtn.style.width = Math.min(250, yesBtn.offsetWidth + 10) + "px";
+  yesBtn.style.height = Math.min(200, yesBtn.offsetHeight + 10) + "px";
+
+  // Start playful animation for Last chance after Lets try click
+  if(noIndex === 6){ // "Let's try?" clicked
+    lastChanceMoving = true;
+    setInterval(moveLastChance, 300);
+  }
+}
+
+noBtn.addEventListener("click", handleNo);
+noBtn.addEventListener("touchstart", handleNo);
+
+// Escape animation for last message
+document.addEventListener("mousemove", e => {
+  if(noIndex === 7){ // Last chance 😏
+    const rect = noBtn.getBoundingClientRect();
+    if(e.clientX >= rect.left && e.clientX <= rect.right &&
+       e.clientY >= rect.top && e.clientY <= rect.bottom){
+      lastChanceMoving = false;
+      noBtn.style.transition = "all 0.6s ease-out";
+      noBtn.style.left = card.offsetWidth + 200 + "px";
+      noBtn.style.top = card.offsetHeight + 200 + "px";
+      noBtn.style.transform = "rotate(720deg)";
+      setTimeout(()=> noBtn.style.display="none",700);
+    }
+  }
+});
 
 // YES CLICK - BEAUTIFUL GIF + CONFETTI
 yesBtn.onclick = () => {
-  if(yesClicked) return;
-  yesClicked = true;
-
   document.body.innerHTML = `
   <div style="
       display:flex;
@@ -258,91 +313,6 @@ yesBtn.onclick = () => {
 
   setInterval(drawConfetti, 20);
 };
-
-// NO BUTTON LOGIC
-let noMessages = [
-  "Wait… sure? 😅",
-  "Really no? 😄",
-  "100% sure? 🥺",
-  "One chance? 😆",
-  "I’m nice 😄",
-  "Let’s try? 😊",
-  "Last chance 😏"
-];
-
-let noIndex = 0;
-let evadeMode = false;
-
-// MOVE NO BUTTON
-function moveNO(){
-  const noW = noBtn.offsetWidth;
-  const noH = noBtn.offsetHeight;
-
-  let x = Math.random() * (card.offsetWidth - noW);
-  let y = Math.random() * (card.offsetHeight - noH);
-
-  noBtn.style.left = x + "px";
-  noBtn.style.top = y + "px";
-  noBtn.style.position = "absolute";
-}
-
-// HANDLE NO CLICK
-function handleNo(e){
-  e.preventDefault();
-  yesBtn.disabled = true;
-
-  if(noIndex < noMessages.length){
-    noBtn.innerText = noMessages[noIndex];
-    noIndex++;
-    if(noIndex === noMessages.length){
-      evadeMode = true;
-    }
-  }
-
-  if(evadeMode) moveNO();
-
-  // YES GROW + SHAKE
-  yesBtn.style.width = Math.min(220, yesBtn.offsetWidth + 15) + "px";
-  yesBtn.style.height = Math.min(200, yesBtn.offsetHeight + 20) + "px";
-
-  yesBtn.classList.remove("yes-shake");
-  void yesBtn.offsetWidth;
-  yesBtn.classList.add("yes-shake");
-
-  // NO SHRINK + TRANSFORM
-  let newH = Math.max(6, noBtn.offsetHeight - 8);
-  let newW = Math.max(20, noBtn.offsetWidth - 10);
-
-  noBtn.style.height = newH + "px";
-  noBtn.style.width = newW + "px";
-  noBtn.style.fontSize = Math.max(6, newH * 0.4) + "px";
-  noBtn.style.padding = Math.max(2, newH * 0.2) + "px";
-  noBtn.style.opacity = Math.max(0.2, newH / 50);
-
-  if(newH < 40 && newH >= 25) noBtn.innerText = "😅";
-  else if(newH < 25 && newH >= 15) noBtn.innerText = "🥺";
-  else if(newH < 15 && newH >= 10) noBtn.innerText = "...";
-  else if(newH < 10) noBtn.innerText = "";
-
-  if(newH <= 8){
-    noBtn.style.pointerEvents = "none";
-    setTimeout(()=> noBtn.style.display = "none", 300);
-  }
-
-  setTimeout(()=> yesBtn.disabled = false, 250);
-}
-
-noBtn.addEventListener("click", handleNo);
-noBtn.addEventListener("touchstart", handleNo);
-
-document.addEventListener("mousemove", e=>{
-  if(!evadeMode) return;
-  moveNO();
-});
-
-document.addEventListener("touchstart", ()=>{
-  if(evadeMode) moveNO();
-});
 </script>
 
 </body>
