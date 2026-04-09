@@ -35,7 +35,7 @@ body{
   height:100%;
   padding:28px;
   border-radius:28px;
-  background:rgba(255,255,255,.18);
+  background:rgba(255,255,255,.22);
   backdrop-filter:blur(14px);
   border:1px solid rgba(255,255,255,.25);
   box-shadow:0 12px 40px rgba(0,0,0,.15);
@@ -48,8 +48,8 @@ body{
   position:relative;
   overflow:hidden;
 }
-h1{font-size:clamp(22px,5vw,28px);margin-bottom:14px}
-p{font-size:clamp(15px,3.8vw,16px);line-height:1.6;margin-bottom:24px}
+h1{font-size:clamp(24px,5.5vw,32px);margin-bottom:14px;font-weight:700;letter-spacing:.3px;text-shadow:0 2px 10px rgba(0,0,0,.25)}
+p{font-size:clamp(16px,4vw,18px);line-height:1.7;margin-bottom:24px;font-weight:500;color:rgba(255,255,255,.96);text-shadow:0 1px 8px rgba(0,0,0,.2)}
 .button-container{
   position:relative;
   width:100%;
@@ -106,66 +106,19 @@ canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 </style>
 </head>
 <body>
+<div id="app"></div>
 
 <audio id="bgMusic" autoplay loop playsinline>
   <source src="JAO - TORPE (Lyric Visualizer).mp3" type="audio/mpeg">
 </audio>
 
-<div id="page1" class="page active">
-  <div class="card-wrapper">
-    <div class="card">
-      <h1>Hey Wedad 😊</h1>
-      <p>Thanks for taking a moment to open this.</p>
-      <button class="yes-btn" onclick="nextPage(2)">Next</button>
-    </div>
-  </div>
-</div>
-
-<div id="page2" class="page">
-  <div class="card-wrapper">
-    <div class="card">
-      <h1>Just something small…</h1>
-      <p>This might feel a little random 😅<br><br>
-      I’ve been a bit curious about you.<br><br>
-      I thought I’d try this simple way of saying hi 😊</p>
-      <button class="yes-btn" onclick="nextPage(3)">Continue</button>
-    </div>
-  </div>
-</div>
-
-<div id="page3" class="page">
-  <div class="card-wrapper">
-    <div class="card" id="mainCard">
-      <h1>Can I ask you something?</h1>
-      <p>Would it be okay if we get to know each other a little? 😊</p>
-      <div class="button-container">
-        <button id="yesBtn" class="yes-btn">Sure 💖</button>
-        <button id="noBtn" class="no-btn">Not sure 😢</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <script>
 const music = document.getElementById('bgMusic');
 music.volume = 0.6;
-
-// autoplay fallback for phones
-function tryPlayMusic(){
-  music.play().catch(()=>{});
-}
+function tryPlayMusic(){ music.play().catch(()=>{}); }
+window.addEventListener('load', tryPlayMusic);
 document.addEventListener('click', tryPlayMusic, { once:true });
 document.addEventListener('touchstart', tryPlayMusic, { once:true });
-window.addEventListener('load', tryPlayMusic);
-
-function nextPage(n){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page'+n).classList.add('active');
-}
-
-const yesBtn = document.getElementById('yesBtn');
-const noBtn = document.getElementById('noBtn');
-const card = document.getElementById('mainCard');
 
 const noMessages = [
   'Wait… sure? 😅',
@@ -180,64 +133,99 @@ const noMessages = [
 let noIndex = 0;
 let moveInterval = null;
 
-function randomPos(){
-  const cardRect = card.getBoundingClientRect();
-  const btnRect = noBtn.getBoundingClientRect();
-  return {
-    x: Math.random() * (cardRect.width - btnRect.width - 30),
-    y: Math.random() * (cardRect.height - btnRect.height - 30)
-  };
-}
+function renderPage(page){
+  const app = document.getElementById('app');
 
-function startMoving(){
-  if(moveInterval) return;
-  noBtn.style.position = 'absolute';
-  moveInterval = setInterval(()=>{
-    const pos = randomPos();
-    noBtn.style.left = pos.x + 'px';
-    noBtn.style.top = pos.y + 'px';
-  },300);
-}
-
-function handleNo(e){
-  e.preventDefault();
-
-  if(noIndex < noMessages.length){
-    noBtn.innerText = noMessages[noIndex];
-    noIndex++;
+  if(page === 1){
+    app.innerHTML = `
+      <div class="page active"><div class="card-wrapper"><div class="card">
+        <h1>Hey Wedad 😊</h1>
+        <p>Thanks for taking a moment to open this.</p>
+        <button class="yes-btn" onclick="renderPage(2)">Next</button>
+      </div></div></div>`;
   }
 
-  noBtn.style.transform = 'scale(.9)';
-  setTimeout(()=> noBtn.style.transform = 'scale(1)',150);
+  if(page === 2){
+    app.innerHTML = `
+      <div class="page active"><div class="card-wrapper"><div class="card">
+        <h1>Something I’ve been wanting to say…</h1>
+        <p>This might feel a little random 😅<br><br>
+        I’ve been a bit curious about you.<br><br>
+        I thought I’d try this simple way of saying hi 😊</p>
+        <button class="yes-btn" onclick="renderPage(3)">Continue</button>
+      </div></div></div>`;
+  }
 
-  yesBtn.style.transform = `scale(${1 + noIndex*0.08})`;
+  if(page === 3){
+    app.innerHTML = `
+      <div class="page active"><div class="card-wrapper"><div class="card" id="mainCard">
+        <h1>Can I ask you something?</h1>
+        <p>Would it be okay if we get to know each other a little? 😊</p>
+        <div class="button-container">
+          <button id="yesBtn" class="yes-btn">Sure 💖</button>
+          <button id="noBtn" class="no-btn">Not sure 😢</button>
+        </div>
+      </div></div></div>`;
 
-  if(noIndex >= 6) startMoving();
+    setupFinalPage();
+  }
 }
 
-noBtn.addEventListener('click', handleNo);
-noBtn.addEventListener('touchstart', handleNo);
+function setupFinalPage(){
+  const yesBtn = document.getElementById('yesBtn');
+  const noBtn = document.getElementById('noBtn');
+  const card = document.getElementById('mainCard');
 
-yesBtn.addEventListener('click', ()=>{
-  document.body.innerHTML = `
-    <div class="success-screen">
-      <div class="success-card">
-        <h1>Yay! 💖</h1>
-        <p>You made me this happy 😆</p>
-        <img src="https://media.giphy.com/media/akiHW8qDydkm4/giphy.gif">
-        <canvas id="confettiCanvas"></canvas>
-      </div>
-    </div>
-    <audio autoplay loop playsinline>
-      <source src="JAO - TORPE (Lyric Visualizer).mp3" type="audio/mpeg">
-    </audio>
-  `;
+  function randomPos(){
+    const cardRect = card.getBoundingClientRect();
+    const btnRect = noBtn.getBoundingClientRect();
+    return {
+      x: Math.random() * (cardRect.width - btnRect.width - 30),
+      y: Math.random() * (cardRect.height - btnRect.height - 30)
+    };
+  }
 
+  function startMoving(){
+    if(moveInterval) return;
+    noBtn.style.position = 'absolute';
+    moveInterval = setInterval(()=>{
+      const pos = randomPos();
+      noBtn.style.left = pos.x + 'px';
+      noBtn.style.top = pos.y + 'px';
+    },300);
+  }
+
+  function handleNo(e){
+    e.preventDefault();
+    if(noIndex < noMessages.length){
+      noBtn.innerText = noMessages[noIndex++];
+    }
+    yesBtn.style.transform = `scale(${1 + noIndex*0.08})`;
+    if(noIndex >= 6) startMoving();
+  }
+
+  noBtn.addEventListener('click', handleNo);
+  noBtn.addEventListener('touchstart', handleNo);
+
+  yesBtn.addEventListener('click', ()=>{
+    document.getElementById('app').innerHTML = `
+      <div class="success-screen">
+        <div class="success-card">
+          <h1>Yay! 💖</h1>
+          <p>You made me this happy 😆</p>
+          <img src="https://media.giphy.com/media/akiHW8qDydkm4/giphy.gif">
+          <canvas id="confettiCanvas"></canvas>
+        </div>
+      </div>`;
+    startConfetti();
+  });
+}
+
+function startConfetti(){
   const canvas = document.getElementById('confettiCanvas');
   const ctx = canvas.getContext('2d');
   canvas.width = canvas.offsetWidth;
   canvas.height = canvas.offsetHeight;
-
   const confetti = Array.from({length:100},()=>({
     x:Math.random()*canvas.width,
     y:Math.random()*canvas.height,
@@ -258,18 +246,18 @@ yesBtn.addEventListener('click', ()=>{
       ctx.moveTo(c.x + c.tilt, c.y);
       ctx.lineTo(c.x, c.y + c.tilt);
       ctx.stroke();
-
       c.a += c.inc;
       c.y += 2;
       c.x += Math.sin(c.d);
       c.tilt = Math.sin(c.a) * 10;
-
       if(c.y > canvas.height) c.y = -10;
     });
     requestAnimationFrame(draw);
   }
   draw();
-});
+}
+
+renderPage(1);
 </script>
 </body>
 </html>
