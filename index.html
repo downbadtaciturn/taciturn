@@ -1,26 +1,154 @@
-Result Size: 366 x 414
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Secret</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #ff9a9e, #fad0c4);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+
+    .box {
+      background: rgba(0,0,0,0.35);
+      padding: 30px;
+      border-radius: 20px;
+      width: 350px;
+      text-align: center;
+    }
+
+    input {
+      width: 90%;
+      padding: 10px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background: #ff4b5c;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    #page2 {
+      display: none;
+      max-width: 600px;
+      text-align: left;
+      line-height: 1.7;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      background: white;
+      animation: blink 0.8s infinite;
+      margin-left: 2px;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- PAGE 1 -->
+<div id="page1" class="box">
+  <h2>🔒 Access Required</h2>
+  <p>Enter your name to continue</p>
+  <input type="text" id="nameInput" placeholder="Your name">
+  <button onclick="checkName()">Enter</button>
+  <p id="error" style="color: yellow;"></p>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2" class="box">
+  <h1>Hi Wedad, 💖</h1>
+
+  <p id="line1"></p>
+  <p id="line2"></p>
+  <p id="line3"></p>
+  <p id="line4"></p>
+  <p id="line5"></p>
+
+  <p style="text-align:center; margin-top:20px;">
+    💌
+  </p>
+</div>
+
+<script>
+function checkName() {
+  let name = document.getElementById("nameInput").value.trim();
+
+  if (name === "Wedad") {
+    document.getElementById("page1").style.display = "none";
+    document.getElementById("page2").style.display = "block";
+
+    startTyping();
+  } else {
+    document.getElementById("error").innerText = "Access denied ❌";
+  }
+}
+
+// VERY SLOW TYPEWRITER FUNCTION
+function typeText(element, text, speed, callback) {
+  let i = 0;
+  function typing() {
+    if (i < text.length) {
+      element.innerHTML += text.charAt(i);
+      i++;
+      setTimeout(typing, speed);
+    } else if (callback) {
+      setTimeout(callback, 800); // pause before next line
+    }
+  }
+  typing();
+}
+
+function startTyping() {
+  typeText(document.getElementById("line1"),
     "This might feel a little random 😅 but I’ve been a bit curious about you for a while now.",
     90, () => {
-​
+
   typeText(document.getElementById("line2"),
     "I thought I’d try a simple way to say hi instead of just keeping it in my head.",
     90, () => {
-​
+
   typeText(document.getElementById("line3"),
     "I don’t really know you much yet, but I genuinely like the idea of getting to know you more.",
     90, () => {
-​
+
   typeText(document.getElementById("line4"),
     "There’s just something about you that made me want to reach out and not miss the chance.",
     90, () => {
-​
+
   typeText(document.getElementById("line5"),
     "If you’re open to it, I’d really like to start talking and see where things go, no pressure at all.",
     90);
-​
+
   }); }); }); });
 }
 </script>
-​
+
 </body>
 </html>
