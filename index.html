@@ -1,99 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Secret</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #ff9a9e, #fad0c4);
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-    }
+<title>For You</title>
 
-    .box {
-      background: rgba(0,0,0,0.35);
-      padding: 30px;
-      border-radius: 20px;
-      width: 350px;
-      text-align: center;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
 
-    input {
-      width: 90%;
-      padding: 10px;
-      margin-top: 10px;
-      border: none;
-      border-radius: 10px;
-      text-align: center;
-      font-size: 16px;
-    }
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Quicksand', sans-serif;
+}
 
-    button {
-      margin-top: 15px;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 10px;
-      background: #ff4b5c;
-      color: white;
-      cursor: pointer;
-      font-size: 16px;
-    }
+/* BACKGROUND (simple gradient) */
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+}
 
-    #page2 {
-      display: none;
-      max-width: 600px;
-      text-align: left;
-      line-height: 1.7;
-    }
+/* desktop = plain */
+.box {
+  width: 320px;
+  padding: 20px;
+  text-align: center;
+  color: white;
+}
 
-    h1 {
-      text-align: center;
-    }
+/* MOBILE ONLY DESIGN */
+@media (max-width: 768px) {
 
-    .cursor {
-      display: inline-block;
-      width: 10px;
-      background: white;
-      animation: blink 0.8s infinite;
-      margin-left: 2px;
-    }
+  body::before {
+    content: "❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤";
+    position: absolute;
+    font-size: 28px;
+    color: rgba(255,255,255,0.12);
+    width: 200%;
+    height: 200%;
+    transform: rotate(-15deg);
+    pointer-events: none;
+  }
 
-    @keyframes blink {
-      50% { opacity: 0; }
-    }
-  </style>
+  .box {
+    width: 85%;
+    padding: 25px;
+    border-radius: 20px;
+
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.25);
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+}
+
+/* INPUT */
+input {
+  width: 90%;
+  padding: 12px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 12px;
+  text-align: center;
+  outline: none;
+}
+
+/* BUTTON */
+button {
+  margin-top: 15px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 12px;
+  background: #ff4b5c;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* MESSAGE */
+#page2 {
+  display: none;
+  text-align: left;
+  line-height: 1.7;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+</style>
 </head>
 
 <body>
 
 <!-- PAGE 1 -->
 <div id="page1" class="box">
-  <h2>🔒 Access Required</h2>
-  <p>Enter your name to continue</p>
+  <h2>🔒 Private</h2>
+  <p>Enter your name</p>
+
   <input type="text" id="nameInput" placeholder="Your name">
   <button onclick="checkName()">Enter</button>
-  <p id="error" style="color: yellow;"></p>
+
+  <p id="error"></p>
 </div>
 
 <!-- PAGE 2 -->
 <div id="page2" class="box">
-  <h1>Hi Wedad, 💖</h1>
+  <h1>Hi Wedad 💖</h1>
 
-  <p id="line1"></p>
-  <p id="line2"></p>
-  <p id="line3"></p>
-  <p id="line4"></p>
-  <p id="line5"></p>
-
-  <p style="text-align:center; margin-top:20px;">
-    💌
-  </p>
+  <p id="l1"></p>
+  <p id="l2"></p>
+  <p id="l3"></p>
+  <p id="l4"></p>
+  <p id="l5"></p>
 </div>
 
 <script>
@@ -103,48 +130,42 @@ function checkName() {
   if (name === "Wedad") {
     document.getElementById("page1").style.display = "none";
     document.getElementById("page2").style.display = "block";
-
     startTyping();
   } else {
-    document.getElementById("error").innerText = "Access denied ❌";
+    document.getElementById("error").innerText = "❌";
   }
 }
 
-// VERY SLOW TYPEWRITER FUNCTION
-function typeText(element, text, speed, callback) {
+/* slow typing */
+function type(el, text, speed, cb) {
   let i = 0;
-  function typing() {
+  function run() {
     if (i < text.length) {
-      element.innerHTML += text.charAt(i);
+      el.innerHTML += text[i];
       i++;
-      setTimeout(typing, speed);
-    } else if (callback) {
-      setTimeout(callback, 800); // pause before next line
+      setTimeout(run, speed);
+    } else if (cb) {
+      setTimeout(cb, 600);
     }
   }
-  typing();
+  run();
 }
 
 function startTyping() {
-  typeText(document.getElementById("line1"),
-    "This might feel a little random 😅 but I’ve been a bit curious about you for a while now.",
-    90, () => {
+  type(document.getElementById("l1"),
+  "This might feel a little random 😅 but I’ve been thinking about you for a while now.", 70, () => {
 
-  typeText(document.getElementById("line2"),
-    "I thought I’d try a simple way to say hi instead of just keeping it in my head.",
-    90, () => {
+  type(document.getElementById("l2"),
+  "I didn’t want to just keep it in my head anymore… so I made this instead.", 70, () => {
 
-  typeText(document.getElementById("line3"),
-    "I don’t really know you much yet, but I genuinely like the idea of getting to know you more.",
-    90, () => {
+  type(document.getElementById("l3"),
+  "I don’t really know you deeply yet, but I like the idea of knowing you more.", 70, () => {
 
-  typeText(document.getElementById("line4"),
-    "There’s just something about you that made me want to reach out and not miss the chance.",
-    90, () => {
+  type(document.getElementById("l4"),
+  "There’s just something about you that made me not want to miss the chance.", 70, () => {
 
-  typeText(document.getElementById("line5"),
-    "If you’re open to it, I’d really like to start talking and see where things go, no pressure at all.",
-    90);
+  type(document.getElementById("l5"),
+  "If you’re open to it, I’d love to start talking… no pressure at all.", 70);
 
   }); }); }); });
 }
