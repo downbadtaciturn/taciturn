@@ -16,48 +16,69 @@
   font-family: 'Quicksand', sans-serif;
 }
 
-/* BACKGROUND (simple gradient) */
+/* 🌸 ANIMATED PASTEL BACKGROUND */
 body {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  overflow: hidden;
+
+  background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee);
+  background-size: 400% 400%;
+  animation: gradientBG 12s ease infinite;
 }
 
-/* desktop = plain */
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 💖 FLOATING HEARTS */
+.hearts {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.hearts span {
+  position: absolute;
+  bottom: -50px;
+  font-size: 18px;
+  color: rgba(255,255,255,0.7);
+  animation: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(1); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(-110vh) scale(1.3); opacity: 0; }
+}
+
+/* 💎 GLASS CARD */
 .box {
-  width: 320px;
-  padding: 20px;
+  position: relative;
+  z-index: 2;
+
+  width: 330px;
+  padding: 25px;
   text-align: center;
   color: white;
+
+  border-radius: 25px;
+
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(15px);
+
+  border: 1px solid rgba(255,255,255,0.4);
+
+  box-shadow: 0 10px 35px rgba(0,0,0,0.2);
 }
 
-/* MOBILE ONLY DESIGN */
-@media (max-width: 768px) {
-
-  body::before {
-    content: "❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤";
-    position: absolute;
-    font-size: 28px;
-    color: rgba(255,255,255,0.12);
-    width: 200%;
-    height: 200%;
-    transform: rotate(-15deg);
-    pointer-events: none;
-  }
-
-  .box {
-    width: 85%;
-    padding: 25px;
-    border-radius: 20px;
-
-    background: rgba(255,255,255,0.12);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,255,255,0.25);
-
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  }
+/* TEXT */
+h1, h2, p {
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
 /* INPUT */
@@ -65,25 +86,40 @@ input {
   width: 90%;
   padding: 12px;
   margin-top: 15px;
+
+  border-radius: 15px;
   border: none;
-  border-radius: 12px;
-  text-align: center;
   outline: none;
+
+  background: rgba(255,255,255,0.9);
+  color: #444;
 }
 
-/* BUTTON */
+/* BUTTON (cute glow) */
 button {
   margin-top: 15px;
   padding: 10px 18px;
+
   border: none;
-  border-radius: 12px;
-  background: #ff4b5c;
+  border-radius: 15px;
+
+  background: #ff6fa5;
   color: white;
   font-weight: bold;
+
   cursor: pointer;
+
+  box-shadow: 0 0 15px rgba(255,111,165,0.6);
+  transition: 0.3s;
 }
 
-/* MESSAGE */
+button:hover {
+  transform: scale(1.08);
+  background: #ff4f8b;
+  box-shadow: 0 0 25px rgba(255,111,165,1);
+}
+
+/* PAGE 2 */
 #page2 {
   display: none;
   text-align: left;
@@ -100,6 +136,9 @@ h1 {
 </head>
 
 <body>
+
+<!-- 💖 HEARTS -->
+<div class="hearts" id="hearts"></div>
 
 <!-- PAGE 1 -->
 <div id="page1" class="box">
@@ -124,19 +163,42 @@ h1 {
 </div>
 
 <script>
+/* 💖 HEART GENERATOR */
+function createHearts() {
+  const container = document.getElementById("hearts");
+
+  setInterval(() => {
+    let heart = document.createElement("span");
+    heart.innerHTML = "❤";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (14 + Math.random() * 12) + "px";
+    heart.style.animationDuration = (6 + Math.random() * 4) + "s";
+
+    container.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 10000);
+  }, 400);
+}
+createHearts();
+
+/* NAME CHECK */
 function checkName() {
   let name = document.getElementById("nameInput").value.trim();
 
-  if (name === "Wedad") {
-    document.getElementById("page1").style.display = "none";
-    document.getElementById("page2").style.display = "block";
-    startTyping();
+  if (name.toLowerCase() === "wedad") {
+    document.getElementById("page1").style.opacity = "0";
+
+    setTimeout(() => {
+      document.getElementById("page1").style.display = "none";
+      document.getElementById("page2").style.display = "block";
+      startTyping();
+    }, 600);
   } else {
     document.getElementById("error").innerText = "❌";
   }
 }
 
-/* slow typing */
+/* TYPING EFFECT */
 function type(el, text, speed, cb) {
   let i = 0;
   function run() {
